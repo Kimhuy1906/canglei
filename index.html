@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canglei Industrial | Quality Products from China</title>
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap">
+<style>
+/* ===== CSS Variables & Reset ===== */
+:root {
+  --brand: #1B3A5C;
+  --brand-light: #2C5282;
+  --brand-lighter: #4A7BA8;
+  --accent: #E8A838;
+  --bg: #FAFAFA;
+  --bg-white: #FFFFFF;
+  --text: #1A1A1A;
+  --text-secondary: #5A5A5A;
+  --text-muted: #8A8A8A;
+  --border: #E5E5E5;
+  --border-light: #F0F0F0;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+  --radius: 4px;
+  --radius-lg: 8px;
+  --font-ko: 'Noto Sans KR', 'Inter', sans-serif;
+  --font-en: 'Inter', 'Noto Sans KR', sans-serif;
+  --max-width: 1200px;
+  --nav-height: 72px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-ko);
+  color: var(--text);
+  background: var(--bg-white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body.en { font-family: var(--font-en); }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* ===== Navigation ===== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--nav-height);
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-light);
+  transition: box-shadow 0.3s;
+}
+.nav.scrolled { box-shadow: var(--shadow-sm); }
+.nav-inner {
+  max-width: var(--max-width); margin: 0 auto; padding: 0 32px;
+  height: 100%; display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { display: flex; align-items: center; gap: 12px; }
+.nav-logo img { height: 36px; width: auto; }
+.nav-logo span {
+  font-size: 16px; font-weight: 600; color: var(--brand);
+  letter-spacing: 0.5px;
+}
+.nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+.nav-links a {
+  font-size: 14px; font-weight: 500; color: var(--text-secondary);
+  transition: color 0.2s; position: relative;
+}
+.nav-links a:hover { color: var(--brand); }
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+  background: var(--brand); transition: width 0.2s;
+}
+.nav-links a:hover::after { width: 100%; }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.lang-switch {
+  display: flex; gap: 4px; padding: 4px;
+  background: var(--bg); border-radius: 20px;
+}
+.lang-switch button {
+  padding: 6px 14px; font-size: 12px; font-weight: 500;
+  border-radius: 16px; color: var(--text-muted); transition: all 0.2s;
+}
+.lang-switch button.active {
+  background: var(--brand); color: #fff;
+}
+.nav-cta {
+  padding: 10px 24px; background: var(--brand); color: #fff;
+  font-size: 13px; font-weight: 600; border-radius: var(--radius);
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--brand-light); }
+.mobile-toggle { display: none; flex-direction: column; gap: 5px; padding: 8px; }
+.mobile-toggle span {
+  width: 22px; height: 2px; background: var(--brand); transition: 0.3s;
+}
+
+/* ===== Hero ===== */
+.hero {
+  padding-top: calc(var(--nav-height) + 60px);
+  padding-bottom: 80px;
+  background: linear-gradient(135deg, #F0F4F8 0%, #FAFBFC 50%, #F5F0E8 100%);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -100px; right: -100px;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(27,58,92,0.06) 0%, transparent 70%);
+}
+.hero-inner {
+  max-width: var(--max-width); margin: 0 auto; padding: 0 32px;
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center;
+  position: relative; z-index: 1;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; background: rgba(27,58,92,0.08);
+  border-radius: 20px; font-size: 13px; font-weight: 500; color: var(--brand);
+  margin-bottom: 24px;
+}
+.hero-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.hero h1 {
+  font-size: 48px; font-weight: 700; line-height: 1.2; color: var(--text);
+  margin-bottom: 20px; letter-spacing: -0.5px;
+}
+.hero h1 .highlight { color: var(--brand); }
+.hero-desc {
+  font-size: 17px; color: var(--text-secondary); line-height: 1.7;
+  margin-bottom: 36px; max-width: 520px;
+}
+.hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-primary {
+  padding: 14px 32px; background: var(--brand); color: #fff;
+  font-size: 15px; font-weight: 600; border-radius: var(--radius);
+  transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { background: var(--brand-light); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-secondary {
+  padding: 14px 32px; background: transparent; color: var(--brand);
+  font-size: 15px; font-weight: 600; border-radius: var(--radius);
+  border: 1.5px solid var(--brand); transition: all 0.2s;
+}
+.btn-secondary:hover { background: var(--brand); color: #fff; }
+.hero-stats {
+  display: flex; gap: 40px; margin-top: 48px; padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.hero-stat .num {
+  font-size: 32px; font-weight: 700; color: var(--brand); line-height: 1;
+}
+.hero-stat .label {
+  font-size: 13px; color: var(--text-muted); margin-top: 6px;
+}
+.hero-visual {
+  position: relative; border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.hero-visual img { width: 100%; height: 420px; object-fit: cover; }
+.hero-badge {
+  position: absolute; bottom: 20px; left: 20px; right: 20px;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+  padding: 16px 20px; border-radius: var(--radius);
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-badge-icon {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--brand); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.hero-badge-icon svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2; }
+.hero-badge-text { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
+.hero-badge-text strong { color: var(--brand); display: block; font-size: 14px; }
+
+/* ===== Sections Common ===== */
+.section { padding: 100px 0; }
+.section-inner { max-width: var(--max-width); margin: 0 auto; padding: 0 32px; }
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-eyebrow {
+  font-size: 13px; font-weight: 600; color: var(--brand-lighter);
+  text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;
+}
+.section-title {
+  font-size: 36px; font-weight: 700; color: var(--text);
+  margin-bottom: 16px; letter-spacing: -0.3px;
+}
+.section-desc {
+  font-size: 16px; color: var(--text-secondary); max-width: 600px; margin: 0 auto;
+}
+
+/* ===== Categories ===== */
+.categories { background: var(--bg); }
+.category-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+}
+.category-card {
+  background: var(--bg-white); border-radius: var(--radius-lg);
+  overflow: hidden; box-shadow: var(--shadow-sm);
+  transition: all 0.3s; cursor: pointer;
+}
+.category-card:hover {
+  transform: translateY(-4px); box-shadow: var(--shadow-md);
+}
+.category-img {
+  height: 200px; overflow: hidden; background: var(--bg);
+}
+.category-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.4s;
+}
+.category-card:hover .category-img img { transform: scale(1.05); }
+.category-body { padding: 24px; }
+.category-icon {
+  width: 44px; height: 44px; border-radius: var(--radius);
+  background: rgba(27,58,92,0.08); display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.category-icon svg { width: 22px; height: 22px; stroke: var(--brand); fill: none; stroke-width: 1.8; }
+.category-name {
+  font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 8px;
+}
+.category-desc {
+  font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;
+}
+.category-link {
+  font-size: 13px; font-weight: 600; color: var(--brand);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.category-link svg { width: 14px; height: 14px; stroke: var(--brand); fill: none; stroke-width: 2; transition: transform 0.2s; }
+.category-card:hover .category-link svg { transform: translateX(3px); }
+
+/* ===== Why Us ===== */
+.why-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+}
+.why-card {
+  padding: 40px 32px; background: var(--bg-white);
+  border: 1px solid var(--border-light); border-radius: var(--radius-lg);
+  transition: all 0.3s;
+}
+.why-card:hover {
+  border-color: var(--brand-lighter); box-shadow: var(--shadow-md);
+}
+.why-num {
+  font-size: 48px; font-weight: 700; color: var(--border);
+  line-height: 1; margin-bottom: 20px;
+}
+.why-card:hover .why-num { color: var(--brand-lighter); }
+.why-title {
+  font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 12px;
+}
+.why-desc {
+  font-size: 14px; color: var(--text-secondary); line-height: 1.7;
+}
+
+/* ===== About ===== */
+.about { background: var(--brand); color: #fff; position: relative; overflow: hidden; }
+.about::before {
+  content: ''; position: absolute; top: -200px; right: -200px;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+}
+.about-inner {
+  max-width: var(--max-width); margin: 0 auto; padding: 0 32px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  position: relative; z-index: 1;
+}
+.about-eyebrow {
+  font-size: 13px; font-weight: 600; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px;
+}
+.about-title {
+  font-size: 36px; font-weight: 700; margin-bottom: 24px; line-height: 1.3;
+}
+.about-text {
+  font-size: 15px; line-height: 1.8; color: rgba(255,255,255,0.8); margin-bottom: 20px;
+}
+.about-features { list-style: none; margin-top: 32px; }
+.about-features li {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0; font-size: 14px; color: rgba(255,255,255,0.9);
+}
+.about-features li svg {
+  width: 18px; height: 18px; stroke: var(--accent); fill: none; stroke-width: 2; flex-shrink: 0;
+}
+.about-visual {
+  border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg);
+}
+.about-visual img { width: 100%; height: 400px; object-fit: cover; }
+
+/* ===== Products Showcase ===== */
+.products { background: var(--bg); }
+.product-tabs {
+  display: flex; justify-content: center; gap: 8px; margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+.product-tab {
+  padding: 10px 24px; font-size: 14px; font-weight: 500;
+  border-radius: 20px; color: var(--text-secondary);
+  background: var(--bg-white); border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.product-tab.active {
+  background: var(--brand); color: #fff; border-color: var(--brand);
+}
+.product-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.product-card {
+  background: var(--bg-white); border-radius: var(--radius-lg);
+  overflow: hidden; box-shadow: var(--shadow-sm); transition: all 0.3s;
+}
+.product-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.product-img { height: 220px; overflow: hidden; background: #fff; }
+.product-img img { width: 100%; height: 100%; object-fit: cover; }
+.product-body { padding: 20px; }
+.product-cat {
+  font-size: 11px; font-weight: 600; color: var(--brand-lighter);
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+}
+.product-name {
+  font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 6px;
+}
+.product-desc {
+  font-size: 13px; color: var(--text-muted); line-height: 1.5;
+}
+
+/* ===== Contact ===== */
+.contact { background: var(--bg-white); }
+.contact-inner {
+  max-width: var(--max-width); margin: 0 auto; padding: 0 32px;
+  display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px;
+}
+.contact-info h2 {
+  font-size: 32px; font-weight: 700; color: var(--text); margin-bottom: 16px;
+}
+.contact-info > p {
+  font-size: 15px; color: var(--text-secondary); margin-bottom: 40px; line-height: 1.7;
+}
+.contact-item {
+  display: flex; gap: 16px; margin-bottom: 28px; align-items: flex-start;
+}
+.contact-item-icon {
+  width: 48px; height: 48px; border-radius: var(--radius);
+  background: rgba(27,58,92,0.08); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.contact-item-icon svg { width: 22px; height: 22px; stroke: var(--brand); fill: none; stroke-width: 1.8; }
+.contact-item-label {
+  font-size: 12px; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;
+}
+.contact-item-value {
+  font-size: 15px; color: var(--text); font-weight: 500;
+}
+.contact-form {
+  background: var(--bg); padding: 40px; border-radius: var(--radius-lg);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block; font-size: 13px; font-weight: 500; color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; padding: 12px 16px; font-size: 14px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--bg-white); color: var(--text);
+  font-family: inherit; transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  outline: none; border-color: var(--brand);
+}
+.form-group textarea { resize: vertical; min-height: 100px; }
+.form-submit {
+  width: 100%; padding: 14px; background: var(--brand); color: #fff;
+  font-size: 15px; font-weight: 600; border-radius: var(--radius);
+  transition: background 0.2s;
+}
+.form-submit:hover { background: var(--brand-light); }
+
+/* ===== Footer ===== */
+.footer {
+  background: #0F1F33; color: rgba(255,255,255,0.7); padding: 60px 0 30px;
+}
+.footer-inner {
+  max-width: var(--max-width); margin: 0 auto; padding: 0 32px;
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px;
+}
+.footer-brand img { height: 36px; margin-bottom: 16px; }
+.footer-brand p {
+  font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.5);
+}
+.footer-col h4 {
+  font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 20px;
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a {
+  font-size: 13px; color: rgba(255,255,255,0.5); transition: color 0.2s;
+}
+.footer-col a:hover { color: #fff; }
+.footer-bottom {
+  max-width: var(--max-width); margin: 40px auto 0; padding: 24px 32px 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12px; color: rgba(255,255,255,0.4);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 968px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero h1 { font-size: 36px; }
+  .category-grid { grid-template-columns: repeat(2, 1fr); }
+  .why-grid { grid-template-columns: 1fr; }
+  .about-inner { grid-template-columns: 1fr; gap: 40px; }
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .contact-inner { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .nav-links { display: none; }
+  .mobile-toggle { display: flex; }
+  .nav-cta { display: none; }
+}
+@media (max-width: 600px) {
+  .hero h1 { font-size: 28px; }
+  .section-title { font-size: 28px; }
+  .category-grid { grid-template-columns: 1fr; }
+  .product-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .hero-stats { gap: 24px; flex-wrap: wrap; }
+  .hero-stat .num { font-size: 24px; }
+}
+
+/* ===== Mobile Menu ===== */
+.mobile-menu {
+  display: none; position: fixed; top: var(--nav-height); left: 0; right: 0;
+  background: #fff; border-bottom: 1px solid var(--border);
+  padding: 20px 32px; z-index: 99;
+}
+.mobile-menu.open { display: block; }
+.mobile-menu a {
+  display: block; padding: 14px 0; font-size: 15px; font-weight: 500;
+  color: var(--text-secondary); border-bottom: 1px solid var(--border-light);
+}
+.mobile-menu a:last-child { border-bottom: none; }
+</style>
+</head>
+<body>
+
+<!-- ===== Navigation ===== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo">
+      <img src="https://aka.doubaocdn.com/s/P0GyOKbssD" alt="Canglei Industrial">
+      <span data-i18n="brand">Canglei Industrial</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home" data-i18n="nav_home">홈</a></li>
+      <li><a href="#categories" data-i18n="nav_categories">제품</a></li>
+      <li><a href="#about" data-i18n="nav_about">회사소개</a></li>
+      <li><a href="#products" data-i18n="nav_products">제품소개</a></li>
+      <li><a href="#contact" data-i18n="nav_contact">문의하기</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-switch">
+        <button class="active" onclick="setLang('ko')">KO</button>
+        <button onclick="setLang('en')">EN</button>
+      </div>
+      <a href="#contact" class="nav-cta" data-i18n="nav_cta">문의하기</a>
+      <button class="mobile-toggle" onclick="toggleMobile()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" onclick="toggleMobile()" data-i18n="nav_home">홈</a>
+  <a href="#categories" onclick="toggleMobile()" data-i18n="nav_categories">제품</a>
+  <a href="#about" onclick="toggleMobile()" data-i18n="nav_about">회사소개</a>
+  <a href="#products" onclick="toggleMobile()" data-i18n="nav_products">제품소개</a>
+  <a href="#contact" onclick="toggleMobile()" data-i18n="nav_contact">문의하기</a>
+</div>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-tag">
+        <span class="dot"></span>
+        <span data-i18n="hero_tag">중국 고품질 제품 수출 전문 기업</span>
+      </div>
+      <h1 data-i18n="hero_title">
+        세상을 연결하는 <span class="highlight">가치</span>를<br>만듭니다
+      </h1>
+      <p class="hero-desc" data-i18n="hero_desc">
+        창레이산업은 생활용품, 반려동물용품, 헬스기구, 차량용품을 중심으로
+        중국의 우수한 제조 파트너와 직접 협력하여 경쟁력 있는 가격과
+        안정적인 품질을 전 세계 고객에게 제공합니다.
+      </p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn-primary" data-i18n="hero_cta1">견적 문의하기</a>
+        <a href="#categories" class="btn-secondary" data-i18n="hero_cta2">제품 보기</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="num">4+</div>
+          <div class="label" data-i18n="stat1">주요 제품 카테고리</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">500+</div>
+          <div class="label" data-i18n="stat2">협력 생산 파트너</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">30+</div>
+          <div class="label" data-i18n="stat3">수출 국가 및 지역</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="https://aka.doubaocdn.com/s/B1rzSbMu8K" alt="Quality Products">
+      <div class="hero-badge">
+        <div class="hero-badge-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.66 0 3.22.45 4.56 1.24"/></svg>
+        </div>
+        <div class="hero-badge-text">
+          <strong data-i18n="badge_title">품질 보장</strong>
+          <span data-i18n="badge_desc">출하 전 전수 검사로 불량률 최소화</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Categories ===== -->
+<section class="section categories" id="categories">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow" data-i18n="cat_eyebrow">PRODUCT CATEGORIES</div>
+      <h2 class="section-title" data-i18n="cat_title">주요 취급 품목</h2>
+      <p class="section-desc" data-i18n="cat_desc">
+        일상생활부터 반려동물, 건강, 자동차까지 다양한 분야의 고품질 제품을 제공합니다
+      </p>
+    </div>
+    <div class="category-grid">
+      <div class="category-card">
+        <div class="category-img"><img src="https://aka.doubaocdn.com/s/B1rzSbMu8K" alt="Life Goods"></div>
+        <div class="category-body">
+          <div class="category-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="category-name" data-i18n="cat1_name">생활용품</div>
+          <div class="category-desc" data-i18n="cat1_desc">주방용품, 욕실용품, 수납정리용품, 가정 소모품</div>
+          <a href="#products" class="category-link" data-i18n="cat_link">자세히 보기
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="category-card">
+        <div class="category-img"><img src="https://aka.doubaocdn.com/s/EKulr2rECX" alt="Pet Supplies"></div>
+        <div class="category-body">
+          <div class="category-icon">
+            <svg viewBox="0 0 24 24"><path d="M10 5.172C10 3.782 8.657 2.69 7 2.69S4 3.782 4 5.172c0 1.28.748 2.378 1.843 2.865M14 5.172C14 3.782 15.343 2.69 17 2.69s3 1.092 3 2.482c0 1.28-.748 2.378-1.843 2.865M16.5 12.5c0 2.5-2 4.5-4.5 4.5s-4.5-2-4.5-4.5c0-1.5.5-2.5 2-3.5s3.5-1 4.5 1c.5 1 .5 2 .5 2.5z"/></svg>
+          </div>
+          <div class="category-name" data-i18n="cat2_name">반려동물용품</div>
+          <div class="category-desc" data-i18n="cat2_desc">사료그릇, 장난감, 케이지, 위생용품, 반려동물 가구</div>
+          <a href="#products" class="category-link" data-i18n="cat_link">자세히 보기
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="category-card">
+        <div class="category-img"><img src="https://aka.doubaocdn.com/s/VMwetqVD5u" alt="Fitness"></div>
+        <div class="category-body">
+          <div class="category-icon">
+            <svg viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M21 21l-1-1M3 3l1 1M18 22l4-4M2 6l4-4M7 17l-5 5M14.5 3.5l6 6M9.5 3.5l-6 6"/></svg>
+          </div>
+          <div class="category-name" data-i18n="cat3_name">헬스·피트니스</div>
+          <div class="category-desc" data-i18n="cat3_desc">요가매트, 덤벨, 저항밴드, 홈트레이닝 기구</div>
+          <a href="#products" class="category-link" data-i18n="cat_link">자세히 보기
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="category-card">
+        <div class="category-img"><img src="https://aka.doubaocdn.com/s/rlt7xttTx6" alt="Car Accessories"></div>
+        <div class="category-body">
+          <div class="category-icon">
+            <svg viewBox="0 0 24 24"><path d="M5 17h14M5 17a2 2 0 01-2-2V9a2 2 0 012-2h14a2 2 0 012 2v6a2 2 0 01-2 2M7 17v2M17 17v2M9 12h.01M15 12h.01"/></svg>
+          </div>
+          <div class="category-name" data-i18n="cat4_name">차량용품</div>
+          <div class="category-desc" data-i18n="cat4_desc">카액세서리, 정리용품, 공기청정기, 차량 소모품</div>
+          <a href="#products" class="category-link" data-i18n="cat_link">자세히 보기
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Why Us ===== -->
+<section class="section" id="why">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow" data-i18n="why_eyebrow">WHY CHOOSE US</div>
+      <h2 class="section-title" data-i18n="why_title">창레이산업의 강점</h2>
+      <p class="section-desc" data-i18n="why_desc">
+        생산자 직거래와 철저한 품질관리로 경쟁력 있는 가격과 안정적인 납기를 약속합니다
+      </p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-num">01</div>
+        <div class="why-title" data-i18n="why1_title">가격 경쟁력</div>
+        <div class="why-desc" data-i18n="why1_desc">
+          중국 내 엄선된 생산 파트너와 직접 협력하여 유통 단계를 최소화,
+          최적의 가격으로 고품질 제품을 공급합니다.
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-num">02</div>
+        <div class="why-title" data-i18n="why2_title">철저한 품질관리</div>
+        <div class="why-desc" data-i18n="why2_desc">
+          자체 QC 팀이 출하 전 전수 검사를 진행하여 불량률을 최소화하고,
+          일관된 품질 기준을 유지합니다.
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-num">03</div>
+        <div class="why-title" data-i18n="why3_title">OEM/ODM 지원</div>
+        <div class="why-desc" data-i18n="why3_desc">
+          로고 인쇄, 포장 디자인, 제품 사양 커스터마이징이 가능하며
+          소량부터 대량 주문까지 유연하게 대응합니다.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== About ===== -->
+<section class="section about" id="about">
+  <div class="about-inner">
+    <div class="about-content">
+      <div class="about-eyebrow" data-i18n="about_eyebrow">ABOUT CANGLEI</div>
+      <h2 class="about-title" data-i18n="about_title">세상을 연결하는 가치를 만드는 기업</h2>
+      <p class="about-text" data-i18n="about_text1">
+        창레이산업(滄雷實業有限公司)은 중국의 우수한 제조업 기반을 바탕으로
+        고품질·고가성비 제품을 전 세계 시장에 공급하는 데 전념하는 수출 전문 기업입니다.
+      </p>
+      <p class="about-text" data-i18n="about_text2">
+        생활용품, 반려동물용품, 헬스·피트니스 기구, 차량용품을 주력으로 취급하며,
+        생산자 직거래를 통해 경쟁력 있는 가격과 안정적인 품질을 동시에 보장합니다.
+      </p>
+      <ul class="about-features">
+        <li>
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          <span data-i18n="about_f1">FOB, CIF 등 다양한 무역 조건 지원</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          <span data-i18n="about_f2">안정적인 물류 네트워크로 정시 납품</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          <span data-i18n="about_f3">신속한 응대와 유연한 주문 대응</span>
+        </li>
+      </ul>
+    </div>
+    <div class="about-visual">
+      <img src="https://aka.doubaocdn.com/s/VMwetqVD5u" alt="About Canglei">
+    </div>
+  </div>
+</section>
+
+<!-- ===== Products ===== -->
+<section class="section products" id="products">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow" data-i18n="prod_eyebrow">PRODUCT SHOWCASE</div>
+      <h2 class="section-title" data-i18n="prod_title">제품 소개</h2>
+      <p class="section-desc" data-i18n="prod_desc">
+        다양한 카테고리의 대표 제품을 소개합니다. 더 많은 제품은 카탈로그 요청 시 제공해 드립니다
+      </p>
+    </div>
+    <div class="product-tabs">
+      <button class="product-tab active" onclick="filterProducts('all', this)" data-i18n="tab_all">전체</button>
+      <button class="product-tab" onclick="filterProducts('life', this)" data-i18n="tab_life">생활용품</button>
+      <button class="product-tab" onclick="filterProducts('pet', this)" data-i18n="tab_pet">반려동물</button>
+      <button class="product-tab" onclick="filterProducts('fitness', this)" data-i18n="tab_fitness">헬스</button>
+      <button class="product-tab" onclick="filterProducts('car', this)" data-i18n="tab_car">차량용품</button>
+    </div>
+    <div class="product-grid" id="productGrid">
+      <div class="product-card" data-cat="life">
+        <div class="product-img"><img src="https://aka.doubaocdn.com/s/B1rzSbMu8K" alt="Kitchen Storage Set"></div>
+        <div class="product-body">
+          <div class="product-cat" data-i18n="pcat1">생활용품</div>
+          <div class="product-name" data-i18n="pname1">주방 수납 세트</div>
+          <div class="product-desc" data-i18n="pdesc1">모던한 디자인의 주방용 보관용기 세트</div>
+        </div>
+      </div>
+      <div class="product-card" data-cat="pet">
+        <div class="product-img"><img src="https://aka.doubaocdn.com/s/EKulr2rECX" alt="Pet Bowl Set"></div>
+        <div class="product-body">
+          <div class="product-cat" data-i18n="pcat2">반려동물용품</div>
+          <div class="product-name" data-i18n="pname2">반려동물 급식기 세트</div>
+          <div class="product-desc" data-i18n="pdesc2">미끄럼 방지 디자인의 애완동물 사료그릇</div>
+        </div>
+      </div>
+      <div class="product-card" data-cat="fitness">
+        <div class="product-img"><img src="https://aka.doubaocdn.com/s/VMwetqVD5u" alt="Yoga Set"></div>
+        <div class="product-body">
+          <div class="product-cat" data-i18n="pcat3">헬스·피트니스</div>
+          <div class="product-name" data-i18n="pname3">홈트레이닝 세트</div>
+          <div class="product-desc" data-i18n="pdesc3">요가매트, 덤벨, 저항밴드 구성 홈트 키트</div>
+        </div>
+      </div>
+      <div class="product-card" data-cat="car">
+        <div class="product-img"><img src="https://aka.doubaocdn.com/s/rlt7xttTx6" alt="Car Organizer"></div>
+        <div class="product-body">
+          <div class="product-cat" data-i18n="pcat4">차량용품</div>
+          <div class="product-name" data-i18n="pname4">차량용 거치대</div>
+          <div class="product-desc" data-i18n="pdesc4">안정적인 차량용 스마트폰 거치대</div>
+        </div>
+      </div>
+      <div class="product-card" data-cat="life">
+        <div class="product-img"><img src="https://aka.doubaocdn.com/s/B1rzSbMu8K" alt="Bathroom Set"></div>
+        <div class="product-body">
+          <div class="product-cat" data-i18n="pcat1">생활용품</div>
+          <div class="product-name" data-i18n="pname5">욕실 용품 세트</div>
+          <div class="product-desc" data-i18n="pdesc5">심플한 디자인의 욕실 정리용품</div>
+        </div>
+      </div>
+      <div class="product-card" data-cat="pet">
+        <div class="product-img"><img src="https://aka.doubaocdn.com/s/EKulr2rECX" alt="Pet Toy"></div>
+        <div class="product-body">
+          <div class="product-cat" data-i18n="pcat2">반려동물용품</div>
+          <div class="product-name" data-i18n="pname6">반려동물 장난감</div>
+          <div class="product-desc" data-i18n="pdesc6">내구성 좋은 애완동물 놀이 장난감</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Contact ===== -->
+<section class="section contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-info">
+      <h2 data-i18n="contact_title">문의하기</h2>
+      <p data-i18n="contact_desc">
+        제품 견적, 샘플 요청, OEM/ODM 협의 등 궁금한 점이 있으시면
+        언제든지 편하게 연락 주시기 바랍니다. 빠르게 답변 드리겠습니다.
+      </p>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="contact-item-label" data-i18n="ci_email">이메일</div>
+          <div class="contact-item-value">kimhuy1906@naver.com</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div class="contact-item-label" data-i18n="ci_addr">주소</div>
+          <div class="contact-item-value" data-i18n="ci_addr_val">중국 장쑤성 우시시</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+        </div>
+        <div>
+          <div class="contact-item-label">KakaoTalk</div>
+          <div class="contact-item-value">KimHuy_</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="contact-item-label" data-i18n="ci_time">응답 시간</div>
+          <div class="contact-item-value" data-i18n="ci_time_val">영업일 24시간 이내 답변</div>
+        </div>
+      </div>
+    </div>
+    <form class="contact-form" onsubmit="submitForm(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label data-i18n="form_name">성함</label>
+          <input type="text" required data-i18n-ph="form_name_ph" placeholder="홍길동">
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_company">회사명</label>
+          <input type="text" data-i18n-ph="form_company_ph" placeholder="회사명을 입력해주세요">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label data-i18n="form_email">이메일</label>
+          <input type="email" required placeholder="email@example.com">
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_cat">관심 카테고리</label>
+          <select>
+            <option data-i18n="opt_all">전체</option>
+            <option data-i18n="opt_life">생활용품</option>
+            <option data-i18n="opt_pet">반려동물용품</option>
+            <option data-i18n="opt_fitness">헬스·피트니스</option>
+            <option data-i18n="opt_car">차량용품</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="form_msg">문의 내용</label>
+        <textarea required data-i18n-ph="form_msg_ph" placeholder="문의하실 내용을 입력해주세요"></textarea>
+      </div>
+      <button type="submit" class="form-submit" data-i18n="form_submit">문의 보내기</button>
+    </form>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="https://aka.doubaocdn.com/s/P0GyOKbssD" alt="Canglei Industrial">
+      <p data-i18n="footer_desc">
+        중국 고품질 제품 수출 전문 기업. 생활용품, 반려동물용품,
+        헬스기구, 차량용품을 전 세계 고객에게 제공합니다.
+      </p>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_nav">바로가기</h4>
+      <ul>
+        <li><a href="#home" data-i18n="nav_home">홈</a></li>
+        <li><a href="#categories" data-i18n="nav_categories">제품</a></li>
+        <li><a href="#about" data-i18n="nav_about">회사소개</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">문의하기</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_cat">제품 카테고리</h4>
+      <ul>
+        <li><a href="#products" data-i18n="cat1_name">생활용품</a></li>
+        <li><a href="#products" data-i18n="cat2_name">반려동물용품</a></li>
+        <li><a href="#products" data-i18n="cat3_name">헬스·피트니스</a></li>
+        <li><a href="#products" data-i18n="cat4_name">차량용품</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_contact">연락처</h4>
+      <ul>
+        <li>kimhuy1906@naver.com</li>
+        <li>KakaoTalk: KimHuy_</li>
+        <li data-i18n="ci_addr_val">중국 장쑤성 우시시</li>
+        <li data-i18n="ci_time_val">영업일 24시간 이내 답변</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Canglei Industrial Co., Ltd. All rights reserved.</span>
+    <span data-i18n="footer_copy">滄雷實業有限公司</span>
+  </div>
+</footer>
+
+<script>
+// ===== i18n Dictionary =====
+const i18n = {
+  ko: {
+    brand: "Canglei Industrial",
+    nav_home: "홈", nav_categories: "제품", nav_about: "회사소개",
+    nav_products: "제품소개", nav_contact: "문의하기", nav_cta: "문의하기",
+    hero_tag: "중국 고품질 제품 수출 전문 기업",
+    hero_title: '세상을 연결하는 <span class="highlight">가치</span>를<br>만듭니다',
+    hero_desc: "창레이산업은 생활용품, 반려동물용품, 헬스기구, 차량용품을 중심으로 중국의 우수한 제조 파트너와 직접 협력하여 경쟁력 있는 가격과 안정적인 품질을 전 세계 고객에게 제공합니다.",
+    hero_cta1: "견적 문의하기", hero_cta2: "제품 보기",
+    stat1: "주요 제품 카테고리", stat2: "협력 생산 파트너", stat3: "수출 국가 및 지역",
+    badge_title: "품질 보장", badge_desc: "출하 전 전수 검사로 불량률 최소화",
+    cat_eyebrow: "PRODUCT CATEGORIES", cat_title: "주요 취급 품목",
+    cat_desc: "일상생활부터 반려동물, 건강, 자동차까지 다양한 분야의 고품질 제품을 제공합니다",
+    cat1_name: "생활용품", cat1_desc: "주방용품, 욕실용품, 수납정리용품, 가정 소모품",
+    cat2_name: "반려동물용품", cat2_desc: "사료그릇, 장난감, 케이지, 위생용품, 반려동물 가구",
+    cat3_name: "헬스·피트니스", cat3_desc: "요가매트, 덤벨, 저항밴드, 홈트레이닝 기구",
+    cat4_name: "차량용품", cat4_desc: "카액세서리, 정리용품, 공기청정기, 차량 소모품",
+    cat_link: "자세히 보기",
+    why_eyebrow: "WHY CHOOSE US", why_title: "창레이산업의 강점",
+    why_desc: "생산자 직거래와 철저한 품질관리로 경쟁력 있는 가격과 안정적인 납기를 약속합니다",
+    why1_title: "가격 경쟁력", why1_desc: "중국 내 엄선된 생산 파트너와 직접 협력하여 유통 단계를 최소화, 최적의 가격으로 고품질 제품을 공급합니다.",
+    why2_title: "철저한 품질관리", why2_desc: "자체 QC 팀이 출하 전 전수 검사를 진행하여 불량률을 최소화하고, 일관된 품질 기준을 유지합니다.",
+    why3_title: "OEM/ODM 지원", why3_desc: "로고 인쇄, 포장 디자인, 제품 사양 커스터마이징이 가능하며 소량부터 대량 주문까지 유연하게 대응합니다.",
+    about_eyebrow: "ABOUT CANGLEI", about_title: "세상을 연결하는 가치를 만드는 기업",
+    about_text1: "창레이산업(滄雷實業有限公司)은 중국의 우수한 제조업 기반을 바탕으로 고품질·고가성비 제품을 전 세계 시장에 공급하는 데 전념하는 수출 전문 기업입니다.",
+    about_text2: "생활용품, 반려동물용품, 헬스·피트니스 기구, 차량용품을 주력으로 취급하며, 생산자 직거래를 통해 경쟁력 있는 가격과 안정적인 품질을 동시에 보장합니다.",
+    about_f1: "FOB, CIF 등 다양한 무역 조건 지원",
+    about_f2: "안정적인 물류 네트워크로 정시 납품",
+    about_f3: "신속한 응대와 유연한 주문 대응",
+    prod_eyebrow: "PRODUCT SHOWCASE", prod_title: "제품 소개",
+    prod_desc: "다양한 카테고리의 대표 제품을 소개합니다. 더 많은 제품은 카탈로그 요청 시 제공해 드립니다",
+    tab_all: "전체", tab_life: "생활용품", tab_pet: "반려동물", tab_fitness: "헬스", tab_car: "차량용품",
+    pcat1: "생활용품", pcat2: "반려동물용품", pcat3: "헬스·피트니스", pcat4: "차량용품",
+    pname1: "주방 수납 세트", pdesc1: "모던한 디자인의 주방용 보관용기 세트",
+    pname2: "반려동물 급식기 세트", pdesc2: "미끄럼 방지 디자인의 애완동물 사료그릇",
+    pname3: "홈트레이닝 세트", pdesc3: "요가매트, 덤벨, 저항밴드 구성 홈트 키트",
+    pname4: "차량용 거치대", pdesc4: "안정적인 차량용 스마트폰 거치대",
+    pname5: "욕실 용품 세트", pdesc5: "심플한 디자인의 욕실 정리용품",
+    pname6: "반려동물 장난감", pdesc6: "내구성 좋은 애완동물 놀이 장난감",
+    contact_title: "문의하기",
+    contact_desc: "제품 견적, 샘플 요청, OEM/ODM 협의 등 궁금한 점이 있으시면 언제든지 편하게 연락 주시기 바랍니다. 빠르게 답변 드리겠습니다.",
+    ci_email: "이메일", ci_addr: "주소", ci_addr_val: "중국 장쑤성 우시시",
+    ci_time: "응답 시간", ci_time_val: "영업일 24시간 이내 답변",
+    form_name: "성함", form_name_ph: "홍길동",
+    form_company: "회사명", form_company_ph: "회사명을 입력해주세요",
+    form_email: "이메일", form_cat: "관심 카테고리",
+    form_msg: "문의 내용", form_msg_ph: "문의하실 내용을 입력해주세요",
+    form_submit: "문의 보내기",
+    opt_all: "전체", opt_life: "생활용품", opt_pet: "반려동물용품",
+    opt_fitness: "헬스·피트니스", opt_car: "차량용품",
+    footer_desc: "중국 고품질 제품 수출 전문 기업. 생활용품, 반려동물용품, 헬스기구, 차량용품을 전 세계 고객에게 제공합니다.",
+    footer_nav: "바로가기", footer_cat: "제품 카테고리", footer_contact: "연락처",
+    footer_copy: "滄雷實業有限公司"
+  },
+  en: {
+    brand: "Canglei Industrial",
+    nav_home: "Home", nav_categories: "Products", nav_about: "About",
+    nav_products: "Showcase", nav_contact: "Contact", nav_cta: "Get a Quote",
+    hero_tag: "Premium Quality Products from China",
+    hero_title: 'Connecting the World with <span class="highlight">Value</span>',
+    hero_desc: "Canglei Industrial specializes in exporting high-quality, cost-effective products from China. We partner directly with top manufacturers to deliver lifestyle goods, pet supplies, fitness equipment, and car accessories to customers worldwide.",
+    hero_cta1: "Request a Quote", hero_cta2: "View Products",
+    stat1: "Product Categories", stat2: "Manufacturing Partners", stat3: "Export Countries",
+    badge_title: "Quality Guaranteed", badge_desc: "100% pre-shipment inspection minimizes defects",
+    cat_eyebrow: "PRODUCT CATEGORIES", cat_title: "Our Product Range",
+    cat_desc: "From daily essentials to pet care, fitness, and automotive — quality products across diverse categories",
+    cat1_name: "Lifestyle Goods", cat1_desc: "Kitchenware, bathroom items, storage organizers, home essentials",
+    cat2_name: "Pet Supplies", cat2_desc: "Pet bowls, toys, cages, hygiene products, pet furniture",
+    cat3_name: "Fitness Gear", cat3_desc: "Yoga mats, dumbbells, resistance bands, home gym equipment",
+    cat4_name: "Car Accessories", cat4_desc: "Car organizers, air purifiers, phone holders, auto gadgets",
+    cat_link: "Learn More",
+    why_eyebrow: "WHY CHOOSE US", why_title: "Our Advantages",
+    why_desc: "Direct manufacturer partnerships and rigorous quality control ensure competitive pricing and reliable delivery",
+    why1_title: "Competitive Pricing", why1_desc: "We work directly with carefully selected manufacturers in China, minimizing distribution layers to offer optimal prices for quality products.",
+    why2_title: "Rigorous Quality Control", why2_desc: "Our in-house QC team conducts full inspections before shipment to minimize defects and maintain consistent quality standards.",
+    why3_title: "OEM/ODM Support", why3_desc: "Logo printing, packaging design, and product customization available. We flexibly handle orders from small to large quantities.",
+    about_eyebrow: "ABOUT CANGLEI", about_title: "Connecting Value to the World",
+    about_text1: "Canglei Industrial Co., Ltd. is an export-specialized company dedicated to supplying high-quality, cost-effective products from China's excellent manufacturing base to global markets.",
+    about_text2: "We focus on lifestyle goods, pet supplies, fitness equipment, and car accessories. Through direct manufacturer partnerships, we ensure competitive pricing and stable quality simultaneously.",
+    about_f1: "Flexible trade terms (FOB, CIF, etc.)",
+    about_f2: "Reliable logistics network for on-time delivery",
+    about_f3: "Quick response and flexible order handling",
+    prod_eyebrow: "PRODUCT SHOWCASE", prod_title: "Featured Products",
+    prod_desc: "Explore our representative products across categories. Full catalog available upon request",
+    tab_all: "All", tab_life: "Lifestyle", tab_pet: "Pet", tab_fitness: "Fitness", tab_car: "Automotive",
+    pcat1: "Lifestyle", pcat2: "Pet Supplies", pcat3: "Fitness", pcat4: "Automotive",
+    pname1: "Kitchen Storage Set", pdesc1: "Modern design kitchen storage container set",
+    pname2: "Pet Feeding Set", pdesc2: "Anti-slip design pet food bowl set",
+    pname3: "Home Workout Kit", pdesc3: "Yoga mat, dumbbells, and resistance bands set",
+    pname4: "Car Phone Mount", pdesc4: "Stable and secure car smartphone holder",
+    pname5: "Bathroom Essentials Set", pdesc5: "Minimalist design bathroom organization set",
+    pname6: "Pet Chew Toy", pdesc6: "Durable pet play toy for dogs and cats",
+    contact_title: "Get in Touch",
+    contact_desc: "Have questions about pricing, samples, or OEM/ODM? Reach out anytime and we'll respond promptly.",
+    ci_email: "Email", ci_addr: "Address", ci_addr_val: "Wuxi, Jiangsu, China",
+    ci_time: "Response Time", ci_time_val: "Within 24 hours on business days",
+    form_name: "Name", form_name_ph: "John Doe",
+    form_company: "Company", form_company_ph: "Your company name",
+    form_email: "Email", form_cat: "Category of Interest",
+    form_msg: "Message", form_msg_ph: "Tell us what you need...",
+    form_submit: "Send Inquiry",
+    opt_all: "All", opt_life: "Lifestyle", opt_pet: "Pet Supplies",
+    opt_fitness: "Fitness", opt_car: "Automotive",
+    footer_desc: "Premium quality product export from China. Lifestyle goods, pet supplies, fitness equipment, and car accessories for global customers.",
+    footer_nav: "Navigation", footer_cat: "Categories", footer_contact: "Contact",
+    footer_copy: "Canglei Industrial Co., Ltd."
+  }
+};
+
+let currentLang = 'ko';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.body.classList.toggle('en', lang === 'en');
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-switch button').forEach((btn, i) => {
+    btn.classList.toggle('active', (i === 0 && lang === 'ko') || (i === 1 && lang === 'en'));
+  });
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (i18n[lang][key]) el.placeholder = i18n[lang][key];
+  });
+}
+
+// ===== Product Filter =====
+function filterProducts(cat, btn) {
+  document.querySelectorAll('.product-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+  });
+}
+
+// ===== Form Submit =====
+function submitForm(e) {
+  e.preventDefault();
+  const msg = currentLang === 'ko'
+    ? '문의가 접수되었습니다. 빠르게 답변 드리겠습니다.'
+    : 'Your inquiry has been received. We will respond shortly.';
+  alert(msg);
+  e.target.reset();
+}
+
+// ===== Mobile Menu =====
+function toggleMobile() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ===== Nav Scroll =====
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ===== Init =====
+setLang('ko');
+</script>
+</body>
+</html>
