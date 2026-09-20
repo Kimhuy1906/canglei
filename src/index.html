@@ -330,7 +330,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .product-card .product-img a { display: block; width: 100%; height: 100%; }
 
 /* ===== Product Detail (Yoga Band) ===== */
-.product-detail { background: var(--bg-white); }
+.product-detail { background: var(--bg-white); display: none; }
+.product-detail.active { display: block; }
 .pd-hero {
   display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
   margin-bottom: 80px;
@@ -850,8 +851,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
           <div class="product-desc" data-i18n="pdesc3">요가매트, 덤벨, 저항밴드 구성 홈트 키트</div>
         </div>
       </div>
-      <div class="product-card" data-cat="fitness">
-        <div class="product-img"><a href="#yoga-band"><img src="images/hero.jpg" alt="Yoga Resistance Band 5 Level Set"></a></div>
+      <div class="product-card" data-cat="fitness" onclick="showYogaBand()">
+        <div class="product-img" style="cursor:pointer;"><img src="images/hero.jpg" alt="Yoga Resistance Band 5 Level Set"></div>
         <div class="product-body">
           <div class="product-cat" data-i18n="pcat3">헬스·피트니스</div>
           <div class="product-name" data-i18n="pname7">요가 저항밴드 5단계 세트</div>
@@ -889,6 +890,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 <!-- ===== Yoga Resistance Band Detail ===== -->
 <section class="section product-detail" id="yoga-band">
   <div class="section-inner">
+    <div style="margin-bottom:24px;">
+      <button onclick="hideYogaBand()" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);font-size:13px;font-weight:500;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;">
+        ← <span data-i18n="yb_back">제품 목록으로</span>
+      </button>
+    </div>
     <div class="section-header">
       <div class="section-eyebrow" data-i18n="yb_eyebrow">PRODUCT DETAIL</div>
       <h2 class="section-title" data-i18n="yb_title">요가 저항밴드 5단계 세트</h2>
@@ -1235,6 +1241,7 @@ const i18n = {
     yb_feat6_title: "미끄럼 방지", yb_feat6_desc: "표면 텍스처 처리로 운동 중 밀림 없이 안정적인 사용감을 제공합니다.",
     yb_oem_title: "🎨 OEM/ODM 맞춤 제작 가능",
     yb_oem_desc: "로고 인쇄 · 색상 커스텀 · 사이즈 변경 · 포장 디자인 · 브랜드 OEM 생산 지원 — 공장 직영 생산으로 대량 주문시 단가 인하 가능합니다",
+    yb_back: "제품 목록으로",
     contact_title: "문의하기",
     contact_desc: "제품 견적, 샘플 요청, OEM/ODM 협의 등 궁금한 점이 있으시면 언제든지 편하게 연락 주시기 바랍니다. 빠르게 답변 드리겠습니다.",
     ci_email: "이메일", ci_addr: "주소", ci_addr_val: "중국 장쑤성 우시시",
@@ -1320,6 +1327,7 @@ const i18n = {
     yb_feat6_title: "Anti-slip Design", yb_feat6_desc: "Textured surface provides a secure grip and stable feel during workouts.",
     yb_oem_title: "🎨 OEM/ODM Customization Available",
     yb_oem_desc: "Logo printing · Color customization · Size changes · Packaging design · Brand OEM production — Direct factory pricing with discounts for bulk orders",
+    yb_back: "Back to Products",
     contact_title: "Get in Touch",
     contact_desc: "Have questions about pricing, samples, or OEM/ODM? Reach out anytime and we'll respond promptly.",
     ci_email: "Email", ci_addr: "Address", ci_addr_val: "Wuxi, Jiangsu, China",
@@ -1365,6 +1373,20 @@ function filterProducts(cat, btn) {
   });
 }
 
+// ===== Yoga Band Detail Toggle =====
+function showYogaBand() {
+  document.getElementById('yoga-band').classList.add('active');
+  document.getElementById('products').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  history.replaceState(null, '', '#yoga-band');
+}
+function hideYogaBand() {
+  document.getElementById('yoga-band').classList.remove('active');
+  document.getElementById('products').style.display = '';
+  document.getElementById('yoga-band').scrollIntoView({ behavior: 'smooth' });
+  history.replaceState(null, '', '#products');
+}
+
 // ===== Form Submit =====
 function submitForm(e) {
   e.preventDefault();
@@ -1404,6 +1426,7 @@ window.addEventListener('scroll', () => {
 
 // ===== Init =====
 setLang('ko');
+if (window.location.hash === '#yoga-band') { showYogaBand(); }
 </script>
 </body>
 </html>
