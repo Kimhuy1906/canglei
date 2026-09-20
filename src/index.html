@@ -1086,21 +1086,21 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       <div class="form-row">
         <div class="form-group">
           <label data-i18n="form_name">성함</label>
-          <input type="text" required data-i18n-ph="form_name_ph" placeholder="홍길동">
+          <input type="text" name="name" required data-i18n-ph="form_name_ph" placeholder="홍길동">
         </div>
         <div class="form-group">
           <label data-i18n="form_company">회사명</label>
-          <input type="text" data-i18n-ph="form_company_ph" placeholder="회사명을 입력해주세요">
+          <input type="text" name="company" data-i18n-ph="form_company_ph" placeholder="회사명을 입력해주세요">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label data-i18n="form_email">이메일</label>
-          <input type="email" required placeholder="email@example.com">
+          <input type="email" name="email" required placeholder="email@example.com">
         </div>
         <div class="form-group">
           <label data-i18n="form_cat">관심 카테고리</label>
-          <select>
+          <select name="category">
             <option data-i18n="opt_all">전체</option>
             <option data-i18n="opt_life">생활용품</option>
             <option data-i18n="opt_pet">반려동물용품</option>
@@ -1111,7 +1111,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       </div>
       <div class="form-group">
         <label data-i18n="form_msg">문의 내용</label>
-        <textarea required data-i18n-ph="form_msg_ph" placeholder="문의하실 내용을 입력해주세요"></textarea>
+        <textarea name="message" required data-i18n-ph="form_msg_ph" placeholder="문의하실 내용을 입력해주세요"></textarea>
       </div>
       <button type="submit" class="form-submit" data-i18n="form_submit">문의 보내기</button>
     </form>
@@ -1368,11 +1368,28 @@ function filterProducts(cat, btn) {
 // ===== Form Submit =====
 function submitForm(e) {
   e.preventDefault();
-  const msg = currentLang === 'ko'
-    ? '문의가 접수되었습니다. 빠르게 답변 드리겠습니다.'
-    : 'Your inquiry has been received. We will respond shortly.';
-  alert(msg);
-  e.target.reset();
+  const form = e.target;
+  const name = form.name.value || '-';
+  const company = form.company.value || '-';
+  const email = form.email.value || '-';
+  const category = form.category.value || '-';
+  const message = form.message.value || '-';
+
+  const isKo = currentLang === 'ko';
+  const subject = isKo
+    ? `[Canglei 문의] ${name} - ${category}`
+    : `[Canglei Inquiry] ${name} - ${category}`;
+  const body = isKo
+    ? `성함: ${name}\n회사명: ${company}\n이메일: ${email}\n관심 카테고리: ${category}\n\n문의 내용:\n${message}`
+    : `Name: ${name}\nCompany: ${company}\nEmail: ${email}\nCategory: ${category}\n\nMessage:\n${message}`;
+
+  const mailtoLink = `mailto:kimhuy1906@naver.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailtoLink;
+
+  const tip = isKo
+    ? '메일 앱이 열렸습니다. 내용을 확인 후 전송해 주세요.'
+    : 'Your email app has opened. Please review and send.';
+  setTimeout(() => { alert(tip); form.reset(); }, 500);
 }
 
 // ===== Mobile Menu =====
