@@ -77,17 +77,34 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .nav-links a:hover::after { width: 100%; }
 .nav-right { display: flex; align-items: center; gap: 16px; }
-.lang-switch {
-  display: flex; gap: 4px; padding: 4px;
-  background: var(--bg); border-radius: 20px;
+.lang-dropdown {
+  position: relative; margin-left: 16px;
 }
-.lang-switch button {
-  padding: 6px 14px; font-size: 12px; font-weight: 500;
-  border-radius: 16px; color: var(--text-muted); transition: all 0.2s;
+.lang-dropdown-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px; font-size: 12px; font-weight: 600;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 20px; color: var(--text); cursor: pointer;
+  transition: all 0.2s;
 }
-.lang-switch button.active {
-  background: var(--brand); color: #fff;
+.lang-dropdown-btn:hover { border-color: var(--brand); color: var(--brand); }
+.lang-dropdown-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; transition: transform 0.2s; }
+.lang-dropdown.open .lang-dropdown-btn svg { transform: rotate(180deg); }
+.lang-dropdown-menu {
+  display: none; position: absolute; top: calc(100% + 6px); right: 0;
+  min-width: 160px; background: var(--bg-white);
+  border: 1px solid var(--border-light); border-radius: var(--radius);
+  box-shadow: var(--shadow-md); z-index: 100; overflow: hidden;
 }
+.lang-dropdown.open .lang-dropdown-menu { display: block; }
+.lang-dropdown-menu button {
+  display: block; width: 100%; text-align: left;
+  padding: 10px 16px; font-size: 13px; font-weight: 500;
+  color: var(--text); background: transparent; cursor: pointer;
+  border: none; transition: all 0.15s;
+}
+.lang-dropdown-menu button:hover { background: var(--bg); color: var(--brand); }
+.lang-dropdown-menu button.active { background: rgba(27,58,92,0.08); color: var(--brand); font-weight: 600; }
 .nav-cta {
   padding: 10px 24px; background: var(--brand); color: #fff;
   font-size: 13px; font-weight: 600; border-radius: var(--radius);
@@ -312,10 +329,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .product-card {
   background: var(--bg-white); border-radius: var(--radius-lg);
   overflow: hidden; box-shadow: var(--shadow-sm); transition: all 0.3s;
+  cursor: pointer;
 }
 .product-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
 .product-img { height: 220px; overflow: hidden; background: #fff; }
-.product-img img { width: 100%; height: 100%; object-fit: cover; }
+.product-img img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; display: block; }
 .product-body { padding: 20px; }
 .product-cat {
   font-size: 11px; font-weight: 600; color: var(--brand-lighter);
@@ -580,6 +598,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .mobile-menu a:last-child { border-bottom: none; }
 
+
+/* RTL Support for Arabic */
+body.rtl { direction: rtl; text-align: right; }
+body.rtl .nav-links { margin-right: auto; margin-left: 0; }
+body.rtl .hero-content { text-align: right; }
+body.rtl .why-card, body.rtl .category-card, body.rtl .product-card { text-align: right; }
+body.rtl .pd-hero-features li { padding-right: 24px; padding-left: 0; }
+body.rtl .pd-hero-features li::before { right: 0; left: auto; }
+body.rtl .spec-table td:first-child { text-align: right; }
+body.rtl .footer-grid { text-align: right; }
 </style>
 </head>
 <body>
@@ -599,9 +627,26 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       <li><a href="#contact" data-i18n="nav_contact">문의하기</a></li>
     </ul>
     <div class="nav-right">
-      <div class="lang-switch">
-        <button class="active" onclick="setLang('ko')">KO</button>
-        <button onclick="setLang('en')">EN</button>
+      <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-dropdown-btn" onclick="toggleLangDropdown()">
+          <span id="currentLangLabel">KO</span>
+          <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="lang-dropdown-menu">
+          <button onclick="setLang('ko')" data-lang="ko">한국어 (KO)</button>
+          <button onclick="setLang('en')" data-lang="en">English (EN)</button>
+          <button onclick="setLang('zh')" data-lang="zh">简体中文 (中)</button>
+          <button onclick="setLang('ja')" data-lang="ja">日本語 (日)</button>
+          <button onclick="setLang('es')" data-lang="es">Español (ES)</button>
+          <button onclick="setLang('pt')" data-lang="pt">Português (PT)</button>
+          <button onclick="setLang('ru')" data-lang="ru">Русский (RU)</button>
+          <button onclick="setLang('ar')" data-lang="ar">العربية (ع)</button>
+          <button onclick="setLang('de')" data-lang="de">Deutsch (DE)</button>
+          <button onclick="setLang('fr')" data-lang="fr">Français (FR)</button>
+          <button onclick="setLang('vi')" data-lang="vi">Tiếng Việt (VI)</button>
+          <button onclick="setLang('id')" data-lang="id">Bahasa Indonesia (ID)</button>
+          <button onclick="setLang('th')" data-lang="th">ภาษาไทย (TH)</button>
+        </div>
       </div>
       <a href="#contact" class="nav-cta" data-i18n="nav_cta">문의하기</a>
       <button class="mobile-toggle" onclick="toggleMobile()">
@@ -655,10 +700,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       </div>
     </div>
     <div class="hero-visual">
-      <img src="https://aka.doubaocdn.com/s/B1rzSbMu8K" alt="Quality Products">
+      <img src="https://aka.doubaocdn.com/s/T1wVgJZEG9" alt="Quality Products">
       <div class="hero-badge">
         <div class="hero-badge-icon">
-          <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.66 0 3.22.45 4.56 1.24"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M2 20h20M4 20V8l6 4V8l6 4V4l4 2v14"/></svg>
         </div>
         <div class="hero-badge-text">
           <strong data-i18n="badge_title">품질 보장</strong>
@@ -680,8 +725,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       </p>
     </div>
     <div class="category-grid">
-      <div class="category-card">
-        <div class="category-img"><img src="https://aka.doubaocdn.com/s/B1rzSbMu8K" alt="Life Goods"></div>
+      <div class="category-card" onclick="goToCategory('life')">
+        <div class="category-img"><img src="https://aka.doubaocdn.com/s/PLjnfaFifF" alt="Life Goods"></div>
         <div class="category-body">
           <div class="category-icon">
             <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -693,7 +738,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
           </a>
         </div>
       </div>
-      <div class="category-card">
+      <div class="category-card" onclick="goToCategory('pet')">
         <div class="category-img"><img src="https://aka.doubaocdn.com/s/EKulr2rECX" alt="Pet Supplies"></div>
         <div class="category-body">
           <div class="category-icon">
@@ -706,7 +751,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
           </a>
         </div>
       </div>
-      <div class="category-card">
+      <div class="category-card" onclick="goToCategory('fitness')">
         <div class="category-img"><img src="https://aka.doubaocdn.com/s/VMwetqVD5u" alt="Fitness"></div>
         <div class="category-body">
           <div class="category-icon">
@@ -719,7 +764,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
           </a>
         </div>
       </div>
-      <div class="category-card">
+      <div class="category-card" onclick="goToCategory('car')">
         <div class="category-img"><img src="https://aka.doubaocdn.com/s/rlt7xttTx6" alt="Car Accessories"></div>
         <div class="category-body">
           <div class="category-icon">
@@ -827,61 +872,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       <button class="product-tab" onclick="filterProducts('fitness', this)" data-i18n="tab_fitness">헬스</button>
       <button class="product-tab" onclick="filterProducts('car', this)" data-i18n="tab_car">차량용품</button>
     </div>
-    <div class="product-grid" id="productGrid">
-      <div class="product-card" data-cat="life">
-        <div class="product-img"><img src="https://aka.doubaocdn.com/s/B1rzSbMu8K" alt="Kitchen Storage Set"></div>
-        <div class="product-body">
-          <div class="product-cat" data-i18n="pcat1">생활용품</div>
-          <div class="product-name" data-i18n="pname1">주방 수납 세트</div>
-          <div class="product-desc" data-i18n="pdesc1">모던한 디자인의 주방용 보관용기 세트</div>
-        </div>
-      </div>
-      <div class="product-card" data-cat="pet">
-        <div class="product-img"><img src="https://aka.doubaocdn.com/s/EKulr2rECX" alt="Pet Bowl Set"></div>
-        <div class="product-body">
-          <div class="product-cat" data-i18n="pcat2">반려동물용품</div>
-          <div class="product-name" data-i18n="pname2">반려동물 급식기 세트</div>
-          <div class="product-desc" data-i18n="pdesc2">미끄럼 방지 디자인의 애완동물 사료그릇</div>
-        </div>
-      </div>
-      <div class="product-card" data-cat="fitness">
-        <div class="product-img"><img src="https://aka.doubaocdn.com/s/VMwetqVD5u" alt="Yoga Set"></div>
-        <div class="product-body">
-          <div class="product-cat" data-i18n="pcat3">헬스·피트니스</div>
-          <div class="product-name" data-i18n="pname3">홈트레이닝 세트</div>
-          <div class="product-desc" data-i18n="pdesc3">요가매트, 덤벨, 저항밴드 구성 홈트 키트</div>
-        </div>
-      </div>
-      <div class="product-card" data-cat="fitness" onclick="showYogaBand()">
-        <div class="product-img" style="cursor:pointer;"><img src="images/hero.jpg" alt="Yoga Resistance Band 5 Level Set"></div>
+    <div class="product-grid" id="productGrid" style="justify-content:center;">
+      <div class="product-card" data-cat="fitness" onclick="showYogaBand()" style="max-width:400px;">
+        <div class="product-img" style="cursor:pointer;"><img src="https://aka.doubaocdn.com/s/4xJDY5mPY7" alt="Yoga Resistance Band 5 Level Set"></div>
         <div class="product-body">
           <div class="product-cat" data-i18n="pcat3">헬스·피트니스</div>
           <div class="product-name" data-i18n="pname7">요가 저항밴드 5단계 세트</div>
           <div class="product-desc" data-i18n="pdesc7">TPE 소재 5색 5단계 저항밴드, 파우치+설명서 포함</div>
-        </div>
-      </div>
-      <div class="product-card" data-cat="car">
-        <div class="product-img"><img src="https://aka.doubaocdn.com/s/rlt7xttTx6" alt="Car Organizer"></div>
-        <div class="product-body">
-          <div class="product-cat" data-i18n="pcat4">차량용품</div>
-          <div class="product-name" data-i18n="pname4">차량용 거치대</div>
-          <div class="product-desc" data-i18n="pdesc4">안정적인 차량용 스마트폰 거치대</div>
-        </div>
-      </div>
-      <div class="product-card" data-cat="life">
-        <div class="product-img"><img src="https://aka.doubaocdn.com/s/B1rzSbMu8K" alt="Bathroom Set"></div>
-        <div class="product-body">
-          <div class="product-cat" data-i18n="pcat1">생활용품</div>
-          <div class="product-name" data-i18n="pname5">욕실 용품 세트</div>
-          <div class="product-desc" data-i18n="pdesc5">심플한 디자인의 욕실 정리용품</div>
-        </div>
-      </div>
-      <div class="product-card" data-cat="pet">
-        <div class="product-img"><img src="https://aka.doubaocdn.com/s/EKulr2rECX" alt="Pet Toy"></div>
-        <div class="product-body">
-          <div class="product-cat" data-i18n="pcat2">반려동물용품</div>
-          <div class="product-name" data-i18n="pname6">반려동물 장난감</div>
-          <div class="product-desc" data-i18n="pdesc6">내구성 좋은 애완동물 놀이 장난감</div>
         </div>
       </div>
     </div>
@@ -928,7 +925,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
     <!-- Set Composition -->
     <div style="text-align:center; margin-bottom:40px;">
-      <img src="images/set.jpg" alt="Set Composition" style="max-width:500px; margin:0 auto; border-radius:8px; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+      <img src="images/hero.jpg" alt="Set Composition" style="max-width:500px; margin:0 auto; border-radius:8px; box-shadow:0 4px 16px rgba(0,0,0,0.08);">
     </div>
 
     <!-- 5 Levels -->
@@ -1191,12 +1188,12 @@ const i18n = {
     brand: "Canglei Industrial",
     nav_home: "홈", nav_categories: "제품", nav_about: "회사소개",
     nav_products: "제품소개", nav_contact: "문의하기", nav_cta: "문의하기",
-    hero_tag: "중국 고품질 제품 수출 전문 기업",
+    hero_tag: "중국 고가성비 제품 수출 전문 기업",
     hero_title: '세상을 연결하는 <span class="highlight">가치</span>를<br>만듭니다',
     hero_desc: "창레이산업은 생활용품, 반려동물용품, 헬스기구, 차량용품을 중심으로 중국의 우수한 제조 파트너와 직접 협력하여 경쟁력 있는 가격과 안정적인 품질을 전 세계 고객에게 제공합니다.",
     hero_cta1: "견적 문의하기", hero_cta2: "제품 보기",
     stat1: "주요 제품 카테고리", stat2: "협력 생산 파트너", stat3: "수출 국가 및 지역",
-    badge_title: "품질 보장", badge_desc: "출하 전 전수 검사로 불량률 최소화",
+    badge_title: "엄선된 품질, 공장 직접 공급", badge_desc: "우수 제조업체를 엄선하여 품질과 가격을 모두 보장합니다",
     cat_eyebrow: "PRODUCT CATEGORIES", cat_title: "주요 취급 품목",
     cat_desc: "일상생활부터 반려동물, 건강, 자동차까지 다양한 분야의 고품질 제품을 제공합니다",
     cat1_name: "생활용품", cat1_desc: "주방용품, 욕실용품, 수납정리용품, 가정 소모품",
@@ -1279,12 +1276,12 @@ const i18n = {
     brand: "Canglei Industrial",
     nav_home: "Home", nav_categories: "Products", nav_about: "About",
     nav_products: "Showcase", nav_contact: "Contact", nav_cta: "Get a Quote",
-    hero_tag: "Premium Quality Products from China",
+    hero_tag: "High Cost-Performance Products from China",
     hero_title: 'Connecting the World with <span class="highlight">Value</span>',
     hero_desc: "Canglei Industrial specializes in exporting high-quality, cost-effective products from China. We partner directly with top manufacturers to deliver lifestyle goods, pet supplies, fitness equipment, and car accessories to customers worldwide.",
     hero_cta1: "Request a Quote", hero_cta2: "View Products",
     stat1: "Product Categories", stat2: "Manufacturing Partners", stat3: "Export Countries",
-    badge_title: "Quality Guaranteed", badge_desc: "100% pre-shipment inspection minimizes defects",
+    badge_title: "Quality Selected, Factory Direct", badge_desc: "Carefully selected manufacturers, quality and price both guaranteed",
     cat_eyebrow: "PRODUCT CATEGORIES", cat_title: "Our Product Range",
     cat_desc: "From daily essentials to pet care, fitness, and automotive — quality products across diverse categories",
     cat1_name: "Lifestyle Goods", cat1_desc: "Kitchenware, bathroom items, storage organizers, home essentials",
@@ -1362,7 +1359,988 @@ const i18n = {
     footer_desc: "Premium quality product export from China. Lifestyle goods, pet supplies, fitness equipment, and car accessories for global customers.",
     footer_nav: "Navigation", footer_cat: "Categories", footer_contact: "Contact",
     footer_copy: "Canglei Industrial Co., Ltd."
+  },
+  zh: {
+    brand: "沧雷实业",
+    nav_home: "首页", nav_categories: "产品", nav_about: "关于我们",
+    nav_products: "产品展示", nav_contact: "联系我们", nav_cta: "询价",
+    hero_tag: "中国高性价比产品出口专业企业",
+    hero_title: '连接世界，创造<span class="highlight">价值</span>',
+    hero_desc: "沧雷实业专注于出口中国高品质、高性价比产品。我们与优质制造商直接合作，为全球客户提供生活用品、宠物用品、健身器材和汽车用品。",
+    hero_cta1: "获取报价", hero_cta2: "查看产品",
+    stat1: "产品品类", stat2: "合作工厂", stat3: "出口国家",
+    badge_title: "严选品质 工厂直供", badge_desc: "精选优质制造商，品质与价格双重保障",
+    cat_eyebrow: "产品分类", cat_title: "主营产品",
+    cat_desc: "从日常生活到宠物、健康、汽车，多品类高品质产品供应",
+    cat1_name: "生活用品", cat1_desc: "厨房用品、浴室用品、收纳整理、家居消耗品",
+    cat2_name: "宠物用品", cat2_desc: "食盆、玩具、笼子、卫生用品、宠物家具",
+    cat3_name: "健身器材", cat3_desc: "瑜伽垫、哑铃、阻力带、居家健身器材",
+    cat4_name: "汽车用品", cat4_desc: "车载配件、收纳用品、空气净化器、汽车消耗品",
+    cat_link: "查看详情",
+    why_eyebrow: "为什么选择我们", why_title: "沧雷实业的优势",
+    why_desc: "工厂直供与严格品控，确保有竞争力的价格和稳定的交期",
+    why1_title: "价格竞争力", why1_desc: "与中国精选工厂直接合作，减少流通环节，以最优价格供应高品质产品。",
+    why2_title: "严格品质管理", why2_desc: "自有QC团队出货前全检，最低化不良率，保持一致的品质标准。",
+    why3_title: "OEM/ODM支持", why3_desc: "支持logo印刷、包装设计、产品规格定制，从小批量到大订单灵活应对。",
+    about_eyebrow: "关于沧雷", about_title: "连接世界价值的企业",
+    about_text1: "沧雷实业有限公司是一家出口专业企业，致力于将中国优秀制造业基础上的高品质、高性价比产品供应给全球市场。",
+    about_text2: "我们主营生活用品、宠物用品、健身器材、汽车用品，通过工厂直供同时确保有竞争力的价格和稳定的品质。",
+    about_f1: "支持FOB、CIF等多种贸易条件",
+    about_f2: "稳定物流网络，准时交货",
+    about_f3: "快速响应，灵活订单处理",
+    prod_eyebrow: "产品展示", prod_title: "精选产品",
+    prod_desc: "各品类代表产品介绍。更多产品请索取目录",
+    tab_all: "全部", tab_life: "生活用品", tab_pet: "宠物用品", tab_fitness: "健身", tab_car: "汽车用品",
+    pcat1: "生活用品", pcat2: "宠物用品", pcat3: "健身器材", pcat4: "汽车用品",
+    pname1: "厨房收纳套装", pdesc1: "现代设计厨房储物容器套装",
+    pname2: "宠物喂食套装", pdesc2: "防滑设计宠物食盆套装",
+    pname3: "居家健身套装", pdesc3: "瑜伽垫、哑铃、阻力带组合健身套装",
+    pname7: "瑜伽阻力带5级套装", pdesc7: "环保TPE材质 5色5级阻力带，含收纳袋+说明书",
+    pname4: "车载手机支架", pdesc4: "稳固安全的车载智能手机支架",
+    pname5: "浴室用品套装", pdesc5: "简约设计浴室收纳用品套装",
+    pname6: "宠物啃咬玩具", pdesc6: "耐用宠物玩耍玩具，适合猫狗",
+    yb_eyebrow: "产品详情", yb_title: "瑜伽阻力带5级套装",
+    yb_tag: "热销 · 健身",
+    yb_hero_title: "环保TPE材质<br>5级阻力带套装",
+    yb_hero_desc: "覆盖瑜伽、普拉提、翘臀、居家健身、康复运动的全身训练5级阻力带套装。环保TPE材质对皮肤刺激小，10LB到50LB共5种强度，从入门到专业都可使用。标配专用收纳袋和使用说明书。",
+    yb_f1: "环保TPE材质（无毒·无异味）",
+    yb_f2: "5级阻力（10LB~50LB）",
+    yb_f3: "超轻便携（每套约110g）",
+    yb_f4: "收纳袋+使用说明书标配",
+    yb_f5: "支持OEM/ODM定制",
+    yb_cta1: "获取报价", yb_cta2: "申请样品",
+    yb_levels_title: "5级阻力配置", yb_levels_sub: "不同颜色对应不同阻力强度，可根据运动目的和水平选择",
+    yb_l1_name: "绿色（X-Light）", yb_l1_spec: "康复·拉伸·瑜伽<br>0.35mm / 12g",
+    yb_l2_name: "蓝色（Light）", yb_l2_spec: "小腿·手臂<br>0.50mm / 14g",
+    yb_l3_name: "黄色（Medium）", yb_l3_spec: "翘臀·小腿·下半身<br>0.70mm / 20g",
+    yb_l4_name: "红色（Heavy）", yb_l4_spec: "大腿·深蹲<br>0.90mm / 27g",
+    yb_l5_name: "黑色（X-Heavy）", yb_l5_spec: "力量·负重深蹲<br>1.10mm / 30g",
+    yb_spec_title: "产品规格", yb_spec_sub: "准确的产品规格信息",
+    yb_s1_label: "产品名称", yb_s1_val: "瑜伽阻力圈5级套装",
+    yb_s2_label: "材质", yb_s3_label: "配置", yb_s3_val: "阻力带5条+收纳袋+使用说明书",
+    yb_s4_label: "带尺寸", yb_s5_label: "厚度", yb_s6_label: "套装重量", yb_s6_val: "约110g（含收纳袋+说明书）",
+    yb_s7_label: "包装", yb_s8_val: "100套（定制logo需500套）",
+    yb_s9_label: "定制", yb_s9_val: "可logo印刷、包装设计、颜色变更（协商）",
+    yb_feat_title: "主要特点", yb_feat_sub: "为什么选择这款产品",
+    yb_feat1_title: "环保TPE材质", yb_feat1_desc: "无毒无异味的环保材质，皮肤敏感人群也可安心使用。",
+    yb_feat2_title: "5级阻力配置", yb_feat2_desc: "10LB到50LB共5种强度，从入门到专业都可根据自身水平使用。",
+    yb_feat3_title: "超轻便携", yb_feat3_desc: "每套约110g的轻量设计+专用收纳袋，随时随地轻松携带。",
+    yb_feat4_title: "全身运动覆盖", yb_feat4_desc: "翘臀、下半身、上半身、核心、拉伸、康复，一套完成全身肌肉训练。",
+    yb_feat5_title: "出色耐用性", yb_feat5_desc: "高弹性TPE材质，反复使用也不易变形，可长期使用。",
+    yb_feat6_title: "防滑设计", yb_feat6_desc: "表面纹理处理，运动中不打滑，提供稳定的使用感。",
+    yb_oem_title: "🎨 支持OEM/ODM定制",
+    yb_oem_desc: "logo印刷·颜色定制·尺寸变更·包装设计·品牌OEM生产 — 工厂直供，大批量订单可议价",
+    yb_back: "返回产品列表",
+    contact_title: "联系我们",
+    contact_desc: "产品报价、样品申请、OEM/ODM咨询等，如有任何疑问请随时联系，我们会尽快回复。",
+    ci_email: "邮箱", ci_addr: "地址", ci_addr_val: "中国上海市",
+    ci_time: "响应时间", ci_time_val: "工作日24小时内回复",
+    form_name: "姓名", form_name_ph: "张三",
+    form_company: "公司名称", form_company_ph: "请输入公司名称",
+    form_email: "邮箱", form_cat: "感兴趣品类",
+    form_msg: "留言内容", form_msg_ph: "请输入您的需求",
+    form_submit: "发送询盘",
+    form_email_hint: "或直接通过以下邮箱联系我们",
+    form_copy: "复制",
+    opt_all: "全部", opt_life: "生活用品", opt_pet: "宠物用品",
+    opt_fitness: "健身器材", opt_car: "汽车用品",
+    footer_desc: "中国高品质产品出口专业企业。生活用品、宠物用品、健身器材、汽车用品，供应全球客户。",
+    footer_nav: "快速导航", footer_cat: "产品分类", footer_contact: "联系方式",
+    footer_copy: "沧雷实业有限公司"
+  },
+  ja: {
+    brand: "Canglei Industrial",
+    nav_home: "ホーム", nav_categories: "製品", nav_about: "会社概要",
+    nav_products: "製品紹介", nav_contact: "お問い合わせ", nav_cta: "見積もり",
+    hero_tag: "中国高コスパ製品輸出専門企業",
+    hero_title: '世界をつなぐ<span class="highlight">価値</span>を創造',
+    hero_desc: "Canglei Industrialは、中国の高品質・コストパフォーマンスに優れた製品を輸出する専門企業です。優良メーカーと直接提携し、生活用品、ペット用品、フィットネス器具、カー用品を世界中のお客様に提供します。",
+    hero_cta1: "見積もり依頼", hero_cta2: "製品を見る",
+    stat1: "製品カテゴリー", stat2: "提携生産パートナー", stat3: "輸出国・地域",
+    badge_title: "厳選品質・工場直供", badge_desc: "優良メーカーを厳選、品質と価格の両方を保証",
+    cat_eyebrow: "製品カテゴリー", cat_title: "主な取扱製品",
+    cat_desc: "日常生活からペット、健康、自動車まで、多様な分野の高品質製品を提供",
+    cat1_name: "生活用品", cat1_desc: "キッチン用品、バス用品、収納整理、家庭消耗品",
+    cat2_name: "ペット用品", cat2_desc: "フードボウル、おもちゃ、ケージ、衛生用品、ペット家具",
+    cat3_name: "フィットネス", cat3_desc: "ヨガマット、ダンベル、レジスタンスバンド、ホームトレーニング器具",
+    cat4_name: "カー用品", cat4_desc: "カーアクセサリー、収納用品、空気清浄機、車載消耗品",
+    cat_link: "詳細を見る",
+    why_eyebrow: "選ばれる理由", why_title: "Cangleiの強み",
+    why_desc: "メーカー直取引と徹底した品質管理で、競争力のある価格と安定納期を約束",
+    why1_title: "価格競争力", why1_desc: "中国国内の厳選メーカーと直接提携し、流通段階を最小化。最適価格で高品質製品を供給します。",
+    why2_title: "徹底した品質管理", why2_desc: "自社QCチームが出荷前全量検査を実施し、不良率を最小化。一貫した品質基準を維持します。",
+    why3_title: "OEM/ODM対応", why3_desc: "ロゴ印刷、パッケージデザイン、製品仕様のカスタマイズが可能。小ロットから大量注文まで柔軟に対応します。",
+    about_eyebrow: "Cangleiについて", about_title: "世界をつなぐ価値を創造する企業",
+    about_text1: "Canglei Industrial Co., Ltd.は、中国の優れた製造業基盤を活かし、高品質・コストパフォーマンスに優れた製品を世界市場に供給する輸出専門企業です。",
+    about_text2: "生活用品、ペット用品、フィットネス器具、カー用品を主力とし、メーカー直取引により競争力のある価格と安定した品質を同時に保証します。",
+    about_f1: "FOB、CIFなど多様な貿易条件に対応",
+    about_f2: "安定物流ネットワークによる定時納品",
+    about_f3: "迅速な対応と柔軟な注文処理",
+    prod_eyebrow: "製品紹介", prod_title: "注目製品",
+    prod_desc: "各カテゴリーの代表製品をご紹介します。詳細カタログはご請求に応じて提供",
+    tab_all: "すべて", tab_life: "生活用品", tab_pet: "ペット", tab_fitness: "フィットネス", tab_car: "カー用品",
+    pcat1: "生活用品", pcat2: "ペット用品", pcat3: "フィットネス", pcat4: "カー用品",
+    pname1: "キッチン収納セット", pdesc1: "モダンデザインのキッチン用保存容器セット",
+    pname2: "ペット給食器セット", pdesc2: "滑り止めデザインのペット用フードボウル",
+    pname3: "ホームトレーニングセット", pdesc3: "ヨガマット、ダンベル、レジスタンスバンドのセット",
+    pname7: "ヨガレジスタンスバンド5段階セット", pdesc7: "環境配慮TPE素材 5色5段階、収納ポーチ+説明書付き",
+    pname4: "車載スマホホルダー", pdesc4: "安定した車載用スマートフォンホルダー",
+    pname5: "バス用品セット", pdesc5: "シンプルデザインのバス収納用品セット",
+    pname6: "ペット用噛むおもちゃ", pdesc6: "耐久性に優れたペット用遊びおもちゃ",
+    yb_eyebrow: "製品詳細", yb_title: "ヨガレジスタンスバンド5段階セット",
+    yb_tag: "ベストセラー · フィットネス",
+    yb_hero_title: "環境配慮TPE素材<br>5段階レジスタンスバンドセット",
+    yb_hero_desc: "ヨガ、ピラティス、ヒップアップ、ホームトレーニング、リハビリまで全身運動をカバーする5段階レジスタンスバンドセット。環境配慮TPE素材で肌への刺激が少なく、10LBから50LBまで5種類の強度で初心者から上級者まで使用可能。専用収納ポーチと取扱説明書が標準付属。",
+    yb_f1: "環境配慮TPE素材（無毒・無臭）",
+    yb_f2: "5段階レジスタンス（10LB~50LB）",
+    yb_f3: "超軽量ポータブル（セット約110g）",
+    yb_f4: "収納ポーチ+取扱説明書 標準付属",
+    yb_f5: "OEM/ODMカスタマイズ対応",
+    yb_cta1: "見積もり依頼", yb_cta2: "サンプル請求",
+    yb_levels_title: "5段階レジスタンス構成", yb_levels_sub: "色ごとに異なるレジスタンス強度で、運動目的とレベルに合わせて選択可能",
+    yb_l1_name: "グリーン（X-Light）", yb_l1_spec: "リハビリ・ストレッチ・ヨガ<br>0.35mm / 12g",
+    yb_l2_name: "ブルー（Light）", yb_l2_spec: "ふくらはぎ・腕<br>0.50mm / 14g",
+    yb_l3_name: "イエロー（Medium）", yb_l3_spec: "ヒップアップ・ふくらはぎ・下半身<br>0.70mm / 20g",
+    yb_l4_name: "レッド（Heavy）", yb_l4_spec: "太もも・スクワット<br>0.90mm / 27g",
+    yb_l5_name: "ブラック（X-Heavy）", yb_l5_spec: "筋力・パワースクワット<br>1.10mm / 30g",
+    yb_spec_title: "製品仕様", yb_spec_sub: "正確な製品規格情報",
+    yb_s1_label: "製品名", yb_s1_val: "ヨガレジスタンスループバンド5段階セット",
+    yb_s2_label: "素材", yb_s3_label: "構成", yb_s3_val: "レジスタンスバンド5本+収納ポーチ+取扱説明書",
+    yb_s4_label: "バンドサイズ", yb_s5_label: "厚さ", yb_s6_label: "セット重量", yb_s6_val: "約110g（ポーチ+説明書含む）",
+    yb_s7_label: "パッケージ", yb_s8_val: "100セット（ロゴカスタムは500セット）",
+    yb_s9_label: "カスタマイズ", yb_s9_val: "ロゴ印刷、パッケージデザイン、色変更可能（協議）",
+    yb_feat_title: "主な特徴", yb_feat_sub: "この製品を選ぶ理由",
+    yb_feat1_title: "環境配慮TPE素材", yb_feat1_desc: "無毒・無臭の環境配慮素材で、肌が敏感な方でも安心して使用できます。",
+    yb_feat2_title: "5段階レジスタンス", yb_feat2_desc: "10LBから50LBまで5種類の強度で、初心者から上級者までご自身のレベルに合わせて使用可能。",
+    yb_feat3_title: "超軽量ポータブル", yb_feat3_desc: "セット約110gの軽量設計と専用ポーチで、いつでもどこでも簡単に持ち運べます。",
+    yb_feat4_title: "全身運動カバー", yb_feat4_desc: "ヒップアップ、下半身、上半身、コア、ストレッチ、リハビリまで、1セットで全身筋肉トレーニングが可能。",
+    yb_feat5_title: "優れた耐久性", yb_feat5_desc: "高弾性TPE素材で、繰り返し使用にも変形が少なく長期間使用できます。",
+    yb_feat6_title: "滑り止め設計", yb_feat6_desc: "表面テクスチャー処理で、運動中の滑りを防ぎ安定した使用感を提供します。",
+    yb_oem_title: "🎨 OEM/ODMカスタマイズ可能",
+    yb_oem_desc: "ロゴ印刷・色カスタム・サイズ変更・パッケージデザイン・ブランドOEM生産対応 — 工場直営で大量注文時は単価引き下げ可能",
+    yb_back: "製品一覧に戻る",
+    contact_title: "お問い合わせ",
+    contact_desc: "製品見積もり、サンプル請求、OEM/ODMのご相談など、お気軽にお問い合わせください。迅速にご回答いたします。",
+    ci_email: "メール", ci_addr: "住所", ci_addr_val: "中国上海市",
+    ci_time: "回答時間", ci_time_val: "営業日24時間以内に回答",
+    form_name: "お名前", form_name_ph: "山田太郎",
+    form_company: "会社名", form_company_ph: "会社名を入力してください",
+    form_email: "メール", form_cat: "興味のあるカテゴリー",
+    form_msg: "お問い合わせ内容", form_msg_ph: "お問い合わせ内容を入力してください",
+    form_submit: "送信する",
+    form_email_hint: "または下記メールアドレスまで直接お問い合わせください",
+    form_copy: "コピー",
+    opt_all: "すべて", opt_life: "生活用品", opt_pet: "ペット用品",
+    opt_fitness: "フィットネス", opt_car: "カー用品",
+    footer_desc: "中国高品質製品輸出専門企業。生活用品、ペット用品、フィットネス器具、カー用品を世界中のお客様に提供。",
+    footer_nav: "ナビゲーション", footer_cat: "製品カテゴリー", footer_contact: "連絡先",
+    footer_copy: "Canglei Industrial Co., Ltd."
   }
+
+
+  ,
+  es: {
+    brand: "Canglei Industrial",
+    nav_home: "Inicio", nav_categories: "Productos", nav_about: "Nosotros",
+    nav_products: "Catálogo", nav_contact: "Contacto", nav_cta: "Cotizar",
+    hero_tag: "Especialista en exportación de productos chinos de alta relación calidad-precio",
+    hero_title: 'Conectando el mundo con <span class="highlight">valor</span>',
+    hero_desc: "Canglei Industrial se especializa en la exportación de productos de alta calidad y rentabilidad desde China. Trabajamos directamente con los mejores fabricantes para ofrecer artículos de hogar, mascotas, fitness y accesorios automotrices a clientes de todo el mundo.",
+    hero_cta1: "Solicitar Cotización", hero_cta2: "Ver Productos",
+    stat1: "Categorías de Productos", stat2: "Socios de Fabricación", stat3: "Países de Exportación",
+    badge_title: "Calidad Seleccionada, Directo de Fábrica", badge_desc: "Fabricantes seleccionados, calidad y precio garantizados",
+    cat_eyebrow: "CATEGORÍAS DE PRODUCTOS", cat_title: "Nuestra Gama de Productos",
+    cat_desc: "Desde esenciales diarios hasta cuidado de mascotas, fitness y automoción — productos de calidad en diversas categorías",
+    cat1_name: "Artículos del Hogar", cat1_desc: "Cocina, baño, organizadores, esenciales para el hogar",
+    cat2_name: "Suministros para Mascotas", cat2_desc: "Comederos, juguetes, jaulas, higiene, muebles para mascotas",
+    cat3_name: "Equipo de Fitness", cat3_desc: "Esterillas de yoga, mancuernas, bandas de resistencia, gimnasio en casa",
+    cat4_name: "Accesorios para Auto", cat4_desc: "Organizadores, purificadores de aire, soportes, gadgets automotrices",
+    cat_link: "Ver Más",
+    why_eyebrow: "POR QUÉ ELEGIRNOS", why_title: "Nuestras Ventajas",
+    why_desc: "Asociaciones directas con fabricantes y control de calidad riguroso garantizan precios competitivos y entrega confiable",
+    why1_title: "Precios Competitivos", why1_desc: "Trabajamos directamente con fabricantes seleccionados en China, minimizando los intermediarios para ofrecer precios óptimos en productos de calidad.",
+    why2_title: "Control de Calidad Riguroso", why2_desc: "Nuestro equipo de QC interno realiza inspecciones completas antes del envío para minimizar defectos y mantener estándares de calidad consistentes.",
+    why3_title: "Soporte OEM/ODM", why3_desc: "Impresión de logotipo, diseño de empaque y personalización de productos disponibles. Manejamos pedidos flexibles desde pequeñas hasta grandes cantidades.",
+    about_eyebrow: "SOBRE CANGLEI", about_title: "Conectando Valor al Mundo",
+    about_text1: "Canglei Industrial Co., Ltd. es una empresa especializada en exportación dedicada a suministrar productos de alta calidad y rentabilidad desde la excelente base manufacturera de China a los mercados globales.",
+    about_text2: "Nos enfocamos en artículos del hogar, suministros para mascotas, equipo de fitness y accesorios para auto. A través de asociaciones directas con fabricantes, garantizamos precios competitivos y calidad estable simultáneamente.",
+    about_f1: "Términos de comercio flexibles (FOB, CIF, etc.)",
+    about_f2: "Red logística confiable para entrega a tiempo",
+    about_f3: "Respuesta rápida y manejo flexible de pedidos",
+    prod_eyebrow: "CATÁLOGO DE PRODUCTOS", prod_title: "Productos Destacados",
+    prod_desc: "Explore nuestros productos representativos por categorías. Catálogo completo disponible bajo solicitud",
+    tab_all: "Todos", tab_life: "Hogar", tab_pet: "Mascotas", tab_fitness: "Fitness", tab_car: "Automoción",
+    pcat1: "Hogar", pcat2: "Mascotas", pcat3: "Fitness", pcat4: "Automoción",
+    pname1: "Set de Almacenamiento de Cocina", pdesc1: "Set de contenedores de cocina de diseño moderno",
+    pname2: "Set de Comederos para Mascotas", pdesc2: "Set de comederos antideslizantes para mascotas",
+    pname3: "Kit de Entrenamiento en Casa", pdesc3: "Set de esterilla de yoga, mancuernas y bandas de resistencia",
+    pname7: "Set de Bandas de Resistencia de Yoga 5 Niveles", pdesc7: "TPE ecológico, 5 colores 5 niveles, con bolsa y manual",
+    pname4: "Soporte para Teléfono en Auto", pdesc4: "Soporte seguro y estable para smartphone en auto",
+    pname5: "Set de Esenciales de Baño", pdesc5: "Set de organización de baño de diseño minimalista",
+    pname6: "Juguete Mordedor para Mascotas", pdesc6: "Juguete duradero para perros y gatos",
+    yb_eyebrow: "DETALLE DEL PRODUCTO", yb_title: "Set de Bandas de Resistencia de Yoga 5 Niveles",
+    yb_tag: "MÁS VENDIDO · FITNESS",
+    yb_hero_title: "Material TPE Ecológico<br>Set de Bandas de Resistencia 5 Niveles",
+    yb_hero_desc: "Un set de bandas de resistencia de 5 niveles que cubre yoga, pilates, glúteos, entrenamiento en casa y rehabilitación. Fabricado con material TPE ecológico suave para la piel, con 5 niveles de resistencia de 10LB a 50LB para principiantes hasta usuarios avanzados. Incluye bolsa de transporte y manual de usuario.",
+    yb_f1: "Material TPE ecológico (no tóxico, sin olor)",
+    yb_f2: "5 niveles de resistencia (10LB~50LB)",
+    yb_f3: "Ultraligero y portátil (~110g por set)",
+    yb_f4: "Bolsa de transporte + manual incluidos",
+    yb_f5: "Personalización OEM/ODM disponible",
+    yb_cta1: "Solicitar Cotización", yb_cta2: "Solicitar Muestra",
+    yb_levels_title: "5 Niveles de Resistencia", yb_levels_sub: "Cada color ofrece un nivel de resistencia diferente para adaptarse a tus objetivos y nivel de condición física",
+    yb_l1_name: "Verde (X-Light)", yb_l1_spec: "Rehab·Estiramiento·Yoga<br>0.35mm / 12g",
+    yb_l2_name: "Azul (Light)", yb_l2_spec: "Pantorrillas·Brazos<br>0.50mm / 14g",
+    yb_l3_name: "Amarillo (Medium)", yb_l3_spec: "Glúteos·Pantorrillas·Inferior<br>0.70mm / 20g",
+    yb_l4_name: "Rojo (Heavy)", yb_l4_spec: "Muslos·Sentadillas<br>0.90mm / 27g",
+    yb_l5_name: "Negro (X-Heavy)", yb_l5_spec: "Fuerza·Sentadillas Potentes<br>1.10mm / 30g",
+    yb_spec_title: "Especificaciones del Producto", yb_spec_sub: "Detalles precisos de especificaciones del producto",
+    yb_s1_label: "Nombre del Producto", yb_s1_val: "Set de Bandas de Resistencia en Bucle de Yoga 5 Niveles",
+    yb_s2_label: "Material", yb_s3_label: "Composición", yb_s3_val: "5 bandas de resistencia + bolsa de transporte + manual",
+    yb_s4_label: "Tamaño de Banda", yb_s5_label: "Grosor", yb_s6_label: "Peso del Set", yb_s6_val: "~110g (incl. bolsa y manual)",
+    yb_s7_label: "Empaque", yb_s8_val: "100 sets (500 sets para personalización de logotipo)",
+    yb_s9_label: "Personalización", yb_s9_val: "Impresión de logotipo, diseño de empaque, cambios de color disponibles (negociable)",
+    yb_feat_title: "Características Clave", yb_feat_sub: "Por qué elegir este producto",
+    yb_feat1_title: "Material TPE Ecológico", yb_feat1_desc: "Material ecológico no tóxico y sin olor, seguro incluso para pieles sensibles.",
+    yb_feat2_title: "5 Niveles de Resistencia", yb_feat2_desc: "De 10LB a 50LB, cinco niveles de intensidad aptos para todos, desde principiantes hasta atletas avanzados.",
+    yb_feat3_title: "Ultraligero y Portátil", yb_feat3_desc: "Solo ~110g por set con bolsa dedicada, fácil de llevar a cualquier lugar, en cualquier momento.",
+    yb_feat4_title: "Entrenamiento de Cuerpo Completo", yb_feat4_desc: "Cubre glúteos, inferior, superior, core, estiramiento y rehabilitación en un solo set.",
+    yb_feat5_title: "Excelente Durabilidad", yb_feat5_desc: "Material TPE de alta elasticidad resiste la deformación con uso repetido para un rendimiento duradero.",
+    yb_feat6_title: "Diseño Antideslizante", yb_feat6_desc: "Superficie texturizada que proporciona un agarre seguro y sensación estable durante los entrenamientos.",
+    yb_oem_title: "🎨 Personalización OEM/ODM Disponible",
+    yb_oem_desc: "Impresión de logotipo · Personalización de color · Cambios de tamaño · Diseño de empaque · Producción OEM de marca — Precios directos de fábrica con descuentos por pedidos al por mayor",
+    yb_back: "Volver a Productos",
+    contact_title: "Contáctenos",
+    contact_desc: "¿Tiene preguntas sobre precios, muestras u OEM/ODM? Contáctenos en cualquier momento y le responderemos rápidamente.",
+    ci_email: "Correo", ci_addr: "Dirección", ci_addr_val: "Shanghái, China",
+    ci_time: "Tiempo de Respuesta", ci_time_val: "Dentro de 24 horas hábiles",
+    form_name: "Nombre", form_name_ph: "Juan Pérez",
+    form_company: "Empresa", form_company_ph: "Nombre de su empresa",
+    form_email: "Correo", form_cat: "Categoría de Interés",
+    form_msg: "Mensaje", form_msg_ph: "Cuéntenos lo que necesita...",
+    form_submit: "Enviar Consulta",
+    form_email_hint: "O contáctenos directamente al correo a continuación",
+    form_copy: "Copiar",
+    opt_all: "Todos", opt_life: "Hogar", opt_pet: "Mascotas",
+    opt_fitness: "Fitness", opt_car: "Automoción",
+    footer_desc: "Exportación de productos de calidad premium desde China. Artículos del hogar, mascotas, fitness y accesorios para auto para clientes globales.",
+    footer_nav: "Navegación", footer_cat: "Categorías", footer_contact: "Contacto",
+    footer_copy: "Canglei Industrial Co., Ltd."
+  },
+  pt: {
+    brand: "Canglei Industrial",
+    nav_home: "Início", nav_categories: "Produtos", nav_about: "Sobre Nós",
+    nav_products: "Catálogo", nav_contact: "Contato", nav_cta: "Cotar",
+    hero_tag: "Especialista em exportação de produtos chineses de alta relação custo-benefício",
+    hero_title: 'Conectando o mundo com <span class="highlight">valor</span>',
+    hero_desc: "A Canglei Industrial é especializada na exportação de produtos de alta qualidade e custo-benefício da China. Trabalhamos diretamente com os melhores fabricantes para oferecer artigos domésticos, para pets, fitness e acessórios automotivos a clientes em todo o mundo.",
+    hero_cta1: "Solicitar Cotação", hero_cta2: "Ver Produtos",
+    stat1: "Categorias de Produtos", stat2: "Parceiros de Fabricação", stat3: "Países de Exportação",
+    badge_title: "Qualidade Selecionada, Direto da Fábrica", badge_desc: "Fabricantes selecionados, qualidade e preço garantidos",
+    cat_eyebrow: "CATEGORIAS DE PRODUTOS", cat_title: "Nossa Linha de Produtos",
+    cat_desc: "De essenciais diários a cuidados com pets, fitness e automotivo — produtos de qualidade em diversas categorias",
+    cat1_name: "Artigos Domésticos", cat1_desc: "Cozinha, banheiro, organizadores, essenciais para casa",
+    cat2_name: "Suprimentos para Pets", cat2_desc: "Comedouros, brinquedos, gaiolas, higiene, móveis para pets",
+    cat3_name: "Equipamento de Fitness", cat3_desc: "Tapetes de yoga, halteres, faixas de resistência, ginástica em casa",
+    cat4_name: "Acessórios para Carro", cat4_desc: "Organizadores, purificadores de ar, suportes, gadgets automotivos",
+    cat_link: "Ver Mais",
+    why_eyebrow: "POR QUE NOS ESCOLHER", why_title: "Nossas Vantagens",
+    why_desc: "Parcerias diretas com fabricantes e controle de qualidade rigoroso garantem preços competitivos e entrega confiável",
+    why1_title: "Preços Competitivos", why1_desc: "Trabalhamos diretamente com fabricantes selecionados na China, minimizando intermediários para oferecer preços ótimos em produtos de qualidade.",
+    why2_title: "Controle de Qualidade Rigoroso", why2_desc: "Nossa equipe de QC interno realiza inspeções completas antes do envio para minimizar defeitos e manter padrões de qualidade consistentes.",
+    why3_title: "Suporte OEM/ODM", why3_desc: "Impressão de logotipo, design de embalagem e personalização de produtos disponíveis. Lidamos com pedidos flexíveis de pequenas a grandes quantidades.",
+    about_eyebrow: "SOBRE A CANGLEI", about_title: "Conectando Valor ao Mundo",
+    about_text1: "A Canglei Industrial Co., Ltd. é uma empresa especializada em exportação dedicada a fornecer produtos de alta qualidade e custo-benefício da excelente base manufatureira da China para mercados globais.",
+    about_text2: "Focamos em artigos domésticos, suprimentos para pets, equipamento de fitness e acessórios para carro. Através de parcerias diretas com fabricantes, garantimos preços competitivos e qualidade estável simultaneamente.",
+    about_f1: "Termos de comércio flexíveis (FOB, CIF, etc.)",
+    about_f2: "Rede logística confiável para entrega no prazo",
+    about_f3: "Resposta rápida e tratamento flexível de pedidos",
+    prod_eyebrow: "CATÁLOGO DE PRODUTOS", prod_title: "Produtos em Destaque",
+    prod_desc: "Explore nossos produtos representativos por categorias. Catálogo completo disponível mediante solicitação",
+    tab_all: "Todos", tab_life: "Casa", tab_pet: "Pets", tab_fitness: "Fitness", tab_car: "Automotivo",
+    pcat1: "Casa", pcat2: "Pets", pcat3: "Fitness", pcat4: "Automotivo",
+    pname1: "Conjunto de Armazenamento de Cozinha", pdesc1: "Conjunto de recipientes de cozinha de design moderno",
+    pname2: "Conjunto de Comedouros para Pets", pdesc2: "Conjunto de comedouros antiderrapantes para pets",
+    pname3: "Kit de Treino em Casa", pdesc3: "Conjunto de tapete de yoga, halteres e faixas de resistência",
+    pname7: "Conjunto de Faixas de Resistência de Yoga 5 Níveis", pdesc7: "TPE ecológico, 5 cores 5 níveis, com bolsa e manual",
+    pname4: "Suporte para Telefone no Carro", pdesc4: "Suporte seguro e estável para smartphone no carro",
+    pname5: "Conjunto de Essenciais de Banheiro", pdesc5: "Conjunto de organização de banheiro de design minimalista",
+    pname6: "Brinquedo Mordedor para Pets", pdesc6: "Brinquedo durável para cães e gatos",
+    yb_eyebrow: "DETALHE DO PRODUTO", yb_title: "Conjunto de Faixas de Resistência de Yoga 5 Níveis",
+    yb_tag: "MAIS VENDIDO · FITNESS",
+    yb_hero_title: "Material TPE Ecológico<br>Conjunto de Faixas de Resistência 5 Níveis",
+    yb_hero_desc: "Um conjunto de faixas de resistência de 5 níveis que cobre yoga, pilates, glúteos, treino em casa e reabilitação. Fabricado com material TPE ecológico suave para a pele, com 5 níveis de resistência de 10LB a 50LB para iniciantes até usuários avançados. Inclui bolsa de transporte e manual do usuário.",
+    yb_f1: "Material TPE ecológico (não tóxico, sem odor)",
+    yb_f2: "5 níveis de resistência (10LB~50LB)",
+    yb_f3: "Ultraleve e portátil (~110g por conjunto)",
+    yb_f4: "Bolsa de transporte + manual incluídos",
+    yb_f5: "Personalização OEM/ODM disponível",
+    yb_cta1: "Solicitar Cotação", yb_cta2: "Solicitar Amostra",
+    yb_levels_title: "5 Níveis de Resistência", yb_levels_sub: "Cada cor oferece um nível de resistência diferente para combinar com seus objetivos e nível de condicionamento físico",
+    yb_l1_name: "Verde (X-Light)", yb_l1_spec: "Reabilitação·Alongamento·Yoga<br>0.35mm / 12g",
+    yb_l2_name: "Azul (Light)", yb_l2_spec: "Panturrilhas·Braços<br>0.50mm / 14g",
+    yb_l3_name: "Amarelo (Medium)", yb_l3_spec: "Glúteos·Panturrilhas·Inferior<br>0.70mm / 20g",
+    yb_l4_name: "Vermelho (Heavy)", yb_l4_spec: "Coxas·Agachamentos<br>0.90mm / 27g",
+    yb_l5_name: "Preto (X-Heavy)", yb_l5_spec: "Força·Agachamentos Potentes<br>1.10mm / 30g",
+    yb_spec_title: "Especificações do Produto", yb_spec_sub: "Detalhes precisos das especificações do produto",
+    yb_s1_label: "Nome do Produto", yb_s1_val: "Conjunto de Faixas de Resistência em Laço de Yoga 5 Níveis",
+    yb_s2_label: "Material", yb_s3_label: "Composição", yb_s3_val: "5 faixas de resistência + bolsa de transporte + manual",
+    yb_s4_label: "Tamanho da Faixa", yb_s5_label: "Espessura", yb_s6_label: "Peso do Conjunto", yb_s6_val: "~110g (incl. bolsa e manual)",
+    yb_s7_label: "Embalagem", yb_s8_val: "100 conjuntos (500 conjuntos para personalização de logotipo)",
+    yb_s9_label: "Personalização", yb_s9_val: "Impressão de logotipo, design de embalagem, mudanças de cor disponíveis (negociável)",
+    yb_feat_title: "Características Principais", yb_feat_sub: "Por que escolher este produto",
+    yb_feat1_title: "Material TPE Ecológico", yb_feat1_desc: "Material ecológico não tóxico e sem odor, seguro mesmo para peles sensíveis.",
+    yb_feat2_title: "5 Níveis de Resistência", yb_feat2_desc: "De 10LB a 50LB, cinco níveis de intensidade adequados para todos, desde iniciantes até atletas avançados.",
+    yb_feat3_title: "Ultraleve e Portátil", yb_feat3_desc: "Apenas ~110g por conjunto com bolsa dedicada, fácil de levar a qualquer lugar, a qualquer momento.",
+    yb_feat4_title: "Treino de Corpo Completo", yb_feat4_desc: "Cobre glúteos, inferior, superior, core, alongamento e reabilitação em um único conjunto.",
+    yb_feat5_title: "Excelente Durabilidade", yb_feat5_desc: "Material TPE de alta elasticidade resiste à deformação com uso repetido para desempenho duradouro.",
+    yb_feat6_title: "Design Antiderrapante", yb_feat6_desc: "Superfície texturizada que proporciona aderência segura e sensação estável durante os treinos.",
+    yb_oem_title: "🎨 Personalização OEM/ODM Disponível",
+    yb_oem_desc: "Impressão de logotipo · Personalização de cor · Mudanças de tamanho · Design de embalagem · Produção OEM de marca — Preços diretos de fábrica com descontos para pedidos em atacado",
+    yb_back: "Voltar aos Produtos",
+    contact_title: "Entre em Contato",
+    contact_desc: "Tem perguntas sobre preços, amostras ou OEM/ODM? Entre em contato a qualquer momento e responderemos rapidamente.",
+    ci_email: "E-mail", ci_addr: "Endereço", ci_addr_val: "Xangai, China",
+    ci_time: "Tempo de Resposta", ci_time_val: "Dentro de 24 horas úteis",
+    form_name: "Nome", form_name_ph: "João Silva",
+    form_company: "Empresa", form_company_ph: "Nome da sua empresa",
+    form_email: "E-mail", form_cat: "Categoria de Interesse",
+    form_msg: "Mensagem", form_msg_ph: "Diga-nos o que você precisa...",
+    form_submit: "Enviar Consulta",
+    form_email_hint: "Ou entre em contato diretamente pelo e-mail abaixo",
+    form_copy: "Copiar",
+    opt_all: "Todos", opt_life: "Casa", opt_pet: "Pets",
+    opt_fitness: "Fitness", opt_car: "Automotivo",
+    footer_desc: "Exportação de produtos premium de qualidade da China. Artigos domésticos, para pets, fitness e acessórios para carro para clientes globais.",
+    footer_nav: "Navegação", footer_cat: "Categorias", footer_contact: "Contato",
+    footer_copy: "Canglei Industrial Co., Ltd."
+  }
+
+
+  ,
+  ru: {
+    brand: "Canglei Industrial",
+    nav_home: "Главная", nav_categories: "Продукция", nav_about: "О компании",
+    nav_products: "Каталог", nav_contact: "Контакты", nav_cta: "Запросить",
+    hero_tag: "Специалист по экспорту китайских товаров с высоким соотношением цена/качество",
+    hero_title: 'Соединяем мир со <span class="highlight">ценностью</span>',
+    hero_desc: "Canglei Industrial специализируется на экспорте высококачественной и рентабельной продукции из Китая. Мы работаем напрямую с лучшими производителями, предлагая товары для дома, товары для домашних животных, фитнес-оборудование и автомобильные аксессуары клиентам по всему миру.",
+    hero_cta1: "Запросить цену", hero_cta2: "Смотреть продукцию",
+    stat1: "Категории продукции", stat2: "Партнёры-производители", stat3: "Страны экспорта",
+    badge_title: "Отобранное качество, прямые поставки", badge_desc: "Отобранные производители, качество и цена гарантированы",
+    cat_eyebrow: "КАТЕГОРИИ ПРОДУКЦИИ", cat_title: "Наша продукция",
+    cat_desc: "От предметов первой необходимости до ухода за питомцами, фитнеса и автотоваров — качественная продукция в различных категориях",
+    cat1_name: "Товары для дома", cat1_desc: "Кухонные принадлежности, товары для ванной, органайзеры, расходные материалы для дома",
+    cat2_name: "Товары для питомцев", cat2_desc: "Миски, игрушки, клетки, средства гигиены, мебель для питомцев",
+    cat3_name: "Фитнес-оборудование", cat3_desc: "Коврики для йоги, гантели, эспандеры, домашний тренажёрный зал",
+    cat4_name: "Автотовары", cat4_desc: "Органайзеры, очистители воздуха, держатели, автомобильные гаджеты",
+    cat_link: "Подробнее",
+    why_eyebrow: "ПОЧЕМУ ВЫБИРАЮТ НАС", why_title: "Наши преимущества",
+    why_desc: "Прямое партнёрство с производителями и строгий контроль качества обеспечивают конкурентоспособные цены и надёжные сроки поставки",
+    why1_title: "Конкурентоспособные цены", why1_desc: "Мы работаем напрямую с отобранными производителями в Китае, минимизируя посредников и предлагая оптимальные цены на качественную продукцию.",
+    why2_title: "Строгий контроль качества", why2_desc: "Наша внутренняя команда QC проводит полную инспекцию перед отгрузкой для минимизации брака и поддержания стабильных стандартов качества.",
+    why3_title: "Поддержка OEM/ODM", why3_desc: "Доступна печать логотипа, дизайн упаковки и кастомизация продукции. Мы гибко обрабатываем заказы от малых до больших партий.",
+    about_eyebrow: "О CANGLEI", about_title: "Соединяем ценность с миром",
+    about_text1: "Canglei Industrial Co., Ltd. — специализированная экспортная компания, занимающаяся поставкой высококачественной и рентабельной продукции из превосходной производственной базы Китая на мировые рынки.",
+    about_text2: "Мы сосредоточены на товарах для дома, товарах для питомцев, фитнес-оборудовании и автотоварах. Через прямое партнёрство с производителями мы одновременно обеспечиваем конкурентоспособные цены и стабильное качество.",
+    about_f1: "Гибкие условия торговли (FOB, CIF и т.д.)",
+    about_f2: "Надёжная логистическая сеть для своевременной поставки",
+    about_f3: "Быстрый отклик и гибкая обработка заказов",
+    prod_eyebrow: "КАТАЛОГ ПРОДУКЦИИ", prod_title: "Рекомендуемая продукция",
+    prod_desc: "Изучите нашу представительную продукцию по категориям. Полный каталог предоставляется по запросу",
+    tab_all: "Все", tab_life: "Для дома", tab_pet: "Питомцы", tab_fitness: "Фитнес", tab_car: "Авто",
+    pcat1: "Для дома", pcat2: "Питомцы", pcat3: "Фитнес", pcat4: "Авто",
+    pname1: "Набор для хранения на кухне", pdesc1: "Набор кухонных контейнеров современного дизайна",
+    pname2: "Набор мисок для питомцев", pdesc2: "Набор противоскользящих мисок для кормления питомцев",
+    pname3: "Набор для домашних тренировок", pdesc3: "Коврик для йоги, гантели и эспандеры в наборе",
+    pname7: "Набор эспандеров для йоги 5 уровней", pdesc7: "Экологичный TPE, 5 цветов 5 уровней, с сумкой и инструкцией",
+    pname4: "Держатель телефона в автомобиль", pdesc4: "Надёжный и устойчивый держатель смартфона в автомобиль",
+    pname5: "Набор принадлежностей для ванной", pdesc5: "Набор органайзеров для ванной минималистичного дизайна",
+    pname6: "Игрушка-грызунок для питомцев", pdesc6: "Прочная игрушка для собак и кошек",
+    yb_eyebrow: "ДЕТАЛИ ПРОДУКЦИИ", yb_title: "Набор эспандеров для йоги 5 уровней",
+    yb_tag: "ХИТ ПРОДАЖ · ФИТНЕС",
+    yb_hero_title: "Экологичный материал TPE<br>Набор эспандеров 5 уровней",
+    yb_hero_desc: "Набор эспандеров из 5 уровней, охватывающий йогу, пилатес, тренировку ягодиц, домашние тренировки и реабилитацию. Изготовлен из экологичного материала TPE, мягкого для кожи, с 5 уровнями сопротивления от 10LB до 50LB для начинающих и продвинутых пользователей. Включает сумку для переноски и инструкцию.",
+    yb_f1: "Экологичный материал TPE (нетоксичный, без запаха)",
+    yb_f2: "5 уровней сопротивления (10LB~50LB)",
+    yb_f3: "Сверхлёгкий и портативный (~110г в наборе)",
+    yb_f4: "Сумка для переноски + инструкция включены",
+    yb_f5: "Доступна кастомизация OEM/ODM",
+    yb_cta1: "Запросить цену", yb_cta2: "Запросить образец",
+    yb_levels_title: "5 уровней сопротивления", yb_levels_sub: "Каждый цвет предлагает различный уровень сопротивления в соответствии с вашими целями и уровнем физической подготовки",
+    yb_l1_name: "Зелёный (X-Light)", yb_l1_spec: "Реабилитация·Растяжка·Йога<br>0.35mm / 12g",
+    yb_l2_name: "Синий (Light)", yb_l2_spec: "Икры·Руки<br>0.50mm / 14g",
+    yb_l3_name: "Жёлтый (Medium)", yb_l3_spec: "Ягодицы·Икры·Низ тела<br>0.70mm / 20g",
+    yb_l4_name: "Красный (Heavy)", yb_l4_spec: "Бёдра·Приседания<br>0.90mm / 27g",
+    yb_l5_name: "Чёрный (X-Heavy)", yb_l5_spec: "Сила·Мощные приседания<br>1.10mm / 30g",
+    yb_spec_title: "Характеристики продукции", yb_spec_sub: "Точная информация о спецификациях продукции",
+    yb_s1_label: "Название продукции", yb_s1_val: "Набор петлевых эспандеров для йоги 5 уровней",
+    yb_s2_label: "Материал", yb_s3_label: "Комплектация", yb_s3_val: "5 эспандеров + сумка для переноски + инструкция",
+    yb_s4_label: "Размер ленты", yb_s5_label: "Толщина", yb_s6_label: "Вес набора", yb_s6_val: "~110г (вкл. сумку и инструкцию)",
+    yb_s7_label: "Упаковка", yb_s8_val: "100 наборов (500 наборов для кастомизации логотипа)",
+    yb_s9_label: "Кастомизация", yb_s9_val: "Печать логотипа, дизайн упаковки, изменение цвета (обсуждается)",
+    yb_feat_title: "Основные характеристики", yb_feat_sub: "Почему стоит выбрать эту продукцию",
+    yb_feat1_title: "Экологичный материал TPE", yb_feat1_desc: "Нетоксичный и без запаха экологичный материал, безопасный даже для чувствительной кожи.",
+    yb_feat2_title: "5 уровней сопротивления", yb_feat2_desc: "От 10LB до 50LB, пять уровней интенсивности подходят всем — от новичков до продвинутых спортсменов.",
+    yb_feat3_title: "Сверхлёгкий и портативный", yb_feat3_desc: "Всего ~110г в наборе с фирменной сумкой — легко брать с собой куда угодно и когда угодно.",
+    yb_feat4_title: "Тренировка всего тела", yb_feat4_desc: "Охватывает ягодицы, низ тела, верх тела, кор, растяжку и реабилитацию в одном наборе.",
+    yb_feat5_title: "Отличная долговечность", yb_feat5_desc: "Высокоэластичный материал TPE устойчив к деформации при многократном использовании для долговечной работы.",
+    yb_feat6_title: "Противоскользящий дизайн", yb_feat6_desc: "Текстурированная поверхность обеспечивает надёжный захват и стабильные ощущения во время тренировок.",
+    yb_oem_title: "🎨 Доступна кастомизация OEM/ODM",
+    yb_oem_desc: "Печать логотипа · Кастомизация цвета · Изменение размера · Дизайн упаковки · Производство OEM под бренд — Прямые заводские цены со скидками при оптовых заказах",
+    yb_back: "Назад к продукции",
+    contact_title: "Связаться с нами",
+    contact_desc: "Есть вопросы по ценам, образцам или OEM/ODM? Свяжитесь с нами в любое время, и мы быстро ответим.",
+    ci_email: "Эл. почта", ci_addr: "Адрес", ci_addr_val: "Шанхай, Китай",
+    ci_time: "Время ответа", ci_time_val: "В течение 24 рабочих часов",
+    form_name: "Имя", form_name_ph: "Иван Иванов",
+    form_company: "Компания", form_company_ph: "Название вашей компании",
+    form_email: "Эл. почта", form_cat: "Интересующая категория",
+    form_msg: "Сообщение", form_msg_ph: "Расскажите, что вам нужно...",
+    form_submit: "Отправить запрос",
+    form_email_hint: "Или свяжитесь с нами напрямую по электронной почте ниже",
+    form_copy: "Копировать",
+    opt_all: "Все", opt_life: "Для дома", opt_pet: "Питомцы",
+    opt_fitness: "Фитнес", opt_car: "Авто",
+    footer_desc: "Экспорт качественной продукции премиум-класса из Китая. Товары для дома, питомцев, фитнес-оборудование и автотовары для глобальных клиентов.",
+    footer_nav: "Навигация", footer_cat: "Категории", footer_contact: "Контакты",
+    footer_copy: "Canglei Industrial Co., Ltd."
+  },
+  ar: {
+    brand: "Canglei Industrial",
+    nav_home: "الرئيسية", nav_categories: "المنتجات", nav_about: "من نحن",
+    nav_products: "المعرض", nav_contact: "اتصل بنا", nav_cta: "اطلب عرض سعر",
+    hero_tag: "متخصص تصدير المنتجات الصينية عالية القيمة مقابل السعر",
+    hero_title: 'نربط العالم بـ<span class="highlight">القيمة</span>',
+    hero_desc: "تتخصص Canglei Industrial في تصدير منتجات عالية الجودة وذات كفاءة في التكلفة من الصين. نعمل مباشرة مع أفضل المصنعين لتقديم مستلزمات المنزل ولوازم الحيوانات الأليفة ومعدات اللياقة البدنية وإكسسوارات السيارات للعملاء في جميع أنحاء العالم.",
+    hero_cta1: "اطلب عرض سعر", hero_cta2: "عرض المنتجات",
+    stat1: "فئات المنتجات", stat2: "شركاء التصنيع", stat3: "دول التصدير",
+    badge_title: "جودة مختارة، توريد مباشر", badge_desc: "مصنعون مختارون، الجودة والسعر مضمونان",
+    cat_eyebrow: "فئات المنتجات", cat_title: "نطاق منتجاتنا",
+    cat_desc: "من الضروريات اليومية إلى رعاية الحيوانات الأليفة واللياقة البدنية والسيارات — منتجات عالية الجودة في فئات متنوعة",
+    cat1_name: "مستلزمات المنزل", cat1_desc: "أدوات المطبخ، أدوات الحمام، منظمات التخزين، مستلزمات المنزل الاستهلاكية",
+    cat2_name: "لوازم الحيوانات الأليفة", cat2_desc: "أوعية الطعام، الألعاب، الأقفاص، منتجات النظافة، أثاث الحيوانات الأليفة",
+    cat3_name: "معدات اللياقة البدنية", cat3_desc: "سجائر اليوغا، الدمبل، أشرطة المقاومة، معدات الجيم المنزلي",
+    cat4_name: "إكسسوارات السيارات", cat4_desc: "منظمات السيارة، أجهزة تنقية الهواء، حوامل الهاتف، أدوات السيارات",
+    cat_link: "اعرض المزيد",
+    why_eyebrow: "لماذا تختارنا", why_title: "مزايا Canglei",
+    why_desc: "الشراكات المباشرة مع المصنعين والرقابة الصارمة على الجودة تضمن أسعارًا تنافسية وتسليمًا موثوقًا",
+    why1_title: "أسعار تنافسية", why1_desc: "نعمل مباشرة مع مصنعين مختارين في الصين، مما يقلل من طبقات التوزيع لنقدم أسعارًا مثالية للمنتجات عالية الجودة.",
+    why2_title: "رقابة صارمة على الجودة", why2_desc: "يقوم فريق مراقبة الجودة الداخلي لدينا بإجراء فحوصات كاملة قبل الشحن لتقليل العيوب والحفاظ على معايير جودة متسقة.",
+    why3_title: "دعم OEM/ODM", why3_desc: "طباعة الشعار، تصميم العبوة، وتخصيص المنتجات متاحة. نتعامل بمرونة مع الطلبات من الكميات الصغيرة إلى الكبيرة.",
+    about_eyebrow: "حول Canglei", about_title: "نربط القيمة بالعالم",
+    about_text1: "Canglei Industrial Co., Ltd. هي شركة متخصصة في التصدير مكرسة لتوريد منتجات عالية الجودة وذات كفاءة في التكلفة من القاعدة التصنيعية الممتازة في الصين إلى الأسواق العالمية.",
+    about_text2: "نركز على مستلزمات المنزل ولوازم الحيوانات الأليفة ومعدات اللياقة البدنية وإكسسوارات السيارات. من خلال الشراكات المباشرة مع المصنعين، نضمن أسعارًا تنافسية وجودة مستقرة في نفس الوقت.",
+    about_f1: "شروط تجارية مرنة (FOB، CIF، إلخ)",
+    about_f2: "شبكة لوجستية موثوقة للتسليم في الوقت المحدد",
+    about_f3: "استجابة سريعة ومعالجة مرنة للطلبات",
+    prod_eyebrow: "معرض المنتجات", prod_title: "منتجات مميزة",
+    prod_desc: "استكشف منتجاتنا التمثيلية عبر الفئات. الكتالوج الكامل متاح عند الطلب",
+    tab_all: "الكل", tab_life: "المنزل", tab_pet: "الحيوانات", tab_fitness: "اللياقة", tab_car: "السيارات",
+    pcat1: "المنزل", pcat2: "الحيوانات الأليفة", pcat3: "اللياقة البدنية", pcat4: "السيارات",
+    pname1: "مجموعة تخزين المطبخ", pdesc1: "مجموعة حاويات تخزين المطبخ بتصميم عصري",
+    pname2: "مجموعة أوعية إطعام الحيوانات", pdesc2: "مجموعة أوعية طعام مضادة للانزلاق للحيوانات الأليفة",
+    pname3: "مجموعة التمارين المنزلية", pdesc3: "سجادة يوغا ودمبل وأشرطة مقاومة في مجموعة",
+    pname7: "مجموعة أشرطة مقاومة اليوغا 5 مستويات", pdesc7: "مادة TPE صديقة للبيئة، 5 ألوان 5 مستويات، مع حقيبة ودليل",
+    pname4: "حامل هاتف للسيارة", pdesc4: "حامل هاتف ذكي ثابت وآمن للسيارة",
+    pname5: "مجموعة مستلزمات الحمام", pdesc5: "مجموعة تنظيم الحمام بتصميم بسيط",
+    pname6: "لعبة مضغ للحيوانات الأليفة", pdesc6: "لعبة متينة للكلاب والقطط",
+    yb_eyebrow: "تفاصيل المنتج", yb_title: "مجموعة أشرطة مقاومة اليوغا 5 مستويات",
+    yb_tag: "الأكثر مبيعًا · اللياقة البدنية",
+    yb_hero_title: "مادة TPE صديقة للبيئة<br>مجموعة أشرطة مقاومة 5 مستويات",
+    yb_hero_desc: "مجموعة أشرطة مقاومة من 5 مستويات تغطي اليوغا والبيلاتس وتمارين الأرداف والتمارين المنزلية وإعادة التأهيل. مصنوعة من مادة TPE صديقة للبيئة لطيفة على الجلد، مع 5 مستويات مقاومة من 10LB إلى 50LB للمبتدئين حتى المستخدمين المتقدمين. تشمل حقيبة حمل ودليل استخدام.",
+    yb_f1: "مادة TPE صديقة للبيئة (غير سامة، عديمة الرائحة)",
+    yb_f2: "5 مستويات مقاومة (10LB~50LB)",
+    yb_f3: "فائق الخفة وقابل للحمل (~110جم للمجموعة)",
+    yb_f4: "حقيبة حمل + دليل الاستخدام مضمنان",
+    yb_f5: "التخصيص OEM/ODM متاح",
+    yb_cta1: "اطلب عرض سعر", yb_cta2: "اطلب عينة",
+    yb_levels_title: "5 مستويات مقاومة", yb_levels_sub: "كل لون يقدم مستوى مقاومة مختلفًا ليناسب أهدافك ومستوى لياقتك البدنية",
+    yb_l1_name: "أخضر (خفيف جدًا)", yb_l1_spec: "إعادة تأهيل·تمارين إطالة·يوغا<br>0.35مم / 12جم",
+    yb_l2_name: "أزرق (خفيف)", yb_l2_spec: "الساقين·الذراعين<br>0.50مم / 14جم",
+    yb_l3_name: "أصفر (متوسط)", yb_l3_spec: "الأرداف·الساقين·الجزء السفلي<br>0.70مم / 20جم",
+    yb_l4_name: "أحمر (ثقيل)", yb_l4_spec: "الفخذين·تمارين القرفصاء<br>0.90مم / 27جم",
+    yb_l5_name: "أسود (ثقيل جدًا)", yb_l5_spec: "القوة·تمارين القرفصاء القوية<br>1.10مم / 30جم",
+    yb_spec_title: "مواصفات المنتج", yb_spec_sub: "تفاصيل مواصفات المنتج الدقيقة",
+    yb_s1_label: "اسم المنتج", yb_s1_val: "مجموعة أشرطة مقاومة حلقية لليوغا 5 مستويات",
+    yb_s2_label: "المادة", yb_s3_label: "التكوين", yb_s3_val: "5 أشرطة مقاومة + حقيبة حمل + دليل استخدام",
+    yb_s4_label: "حجم الشريط", yb_s5_label: "السماكة", yb_s6_label: "وزن المجموعة", yb_s6_val: "~110جم (شامل الحقيبة والدليل)",
+    yb_s7_label: "التعبئة", yb_s8_val: "100 مجموعة (500 مجموعة لتخصيص الشعار)",
+    yb_s9_label: "التخصيص", yb_s9_val: "طباعة الشعار، تصميم العبوة، تغيير الألوان متاح (قابل للتفاوض)",
+    yb_feat_title: "الميزات الرئيسية", yb_feat_sub: "لماذا تختار هذا المنتج",
+    yb_feat1_title: "مادة TPE صديقة للبيئة", yb_feat1_desc: "مادة صديقة للبيئة غير سامة وعديمة الرائحة، آمنة حتى للبشرة الحساسة.",
+    yb_feat2_title: "5 مستويات مقاومة", yb_feat2_desc: "من 10LB إلى 50LB، خمسة مستويات من الشدة تناسب الجميع من المبتدئين إلى الرياضيين المتقدمين.",
+    yb_feat3_title: "فائق الخفة وقابل للحمل", yb_feat3_desc: "فقط ~110جم للمجموعة مع حقيبة مخصصة، سهل الحمل في أي مكان وفي أي وقت.",
+    yb_feat4_title: "تمارين الجسم الكامل", yb_feat4_desc: "يغطي الأرداف والجزء السفلي والجزء العلوي والعضلات الأساسية والتمارين الإطالية وإعادة التأهيل في مجموعة واحدة.",
+    yb_feat5_title: "متانة ممتازة", yb_feat5_desc: "مادة TPE عالية المرونة تقاوم التشوه مع الاستخدام المتكرر لأداء طويل الأمد.",
+    yb_feat6_title: "تصميم مضاد للانزلاق", yb_feat6_desc: "سطح منقش يوفر قبضة آمنة وإحساسًا مستقرًا أثناء التمارين.",
+    yb_oem_title: "🎨 التخصيص OEM/ODM متاح",
+    yb_oem_desc: "طباعة الشعار · تخصيص الألوان · تغيير الأحجام · تصميم العبوة · إنتاج OEM للعلامات التجارية — أسعار المصنع المباشرة مع خصومات للطلبات بالجملة",
+    yb_back: "العودة إلى المنتجات",
+    contact_title: "اتصل بنا",
+    contact_desc: "هل لديك أسئلة حول الأسعار أو العينات أو OEM/ODM؟ اتصل بنا في أي وقت وسنرد عليك بسرعة.",
+    ci_email: "البريد الإلكتروني", ci_addr: "العنوان", ci_addr_val: "شانغهاي، الصين",
+    ci_time: "وقت الاستجابة", ci_time_val: "خلال 24 ساعة عمل",
+    form_name: "الاسم", form_name_ph: "أحمد محمد",
+    form_company: "الشركة", form_company_ph: "اسم شركتك",
+    form_email: "البريد الإلكتروني", form_cat: "فئة الاهتمام",
+    form_msg: "الرسالة", form_msg_ph: "أخبرنا بما تحتاجه...",
+    form_submit: "إرسال الاستفسار",
+    form_email_hint: "أو اتصل بنا مباشرة على البريد الإلكتروني أدناه",
+    form_copy: "نسخ",
+    opt_all: "الكل", opt_life: "المنزل", opt_pet: "الحيوانات الأليفة",
+    opt_fitness: "اللياقة البدنية", opt_car: "السيارات",
+    footer_desc: "تصدير منتجات عالية الجودة من الصين. مستلزمات المنزل ولوازم الحيوانات الأليفة ومعدات اللياقة البدنية وإكسسوارات السيارات للعملاء العالميين.",
+    footer_nav: "التنقل", footer_cat: "الفئات", footer_contact: "اتصل بنا",
+    footer_copy: "Canglei Industrial Co., Ltd."
+  }
+
+
+  ,
+  de: {
+    brand: "Canglei Industrial",
+    nav_home: "Startseite", nav_categories: "Produkte", nav_about: "Über uns",
+    nav_products: "Produktkatalog", nav_contact: "Kontakt", nav_cta: "Angebot anfordern",
+    hero_tag: "Spezialist für Export chinesischer Produkte mit hohem Preis-Leistungs-Verhältnis",
+    hero_title: 'Wir verbinden die Welt mit <span class="highlight">Wert</span>',
+    hero_desc: "Canglei Industrial ist spezialisiert auf den Export hochwertiger und kosteneffizienter Produkte aus China. Wir arbeiten direkt mit Top-Herstellern zusammen, um Haushaltswaren, Haustierbedarf, Fitnessgeräte und Auto-Zubehör an Kunden weltweit zu liefern.",
+    hero_cta1: "Angebot anfordern", hero_cta2: "Produkte ansehen",
+    stat1: "Produktkategorien", stat2: "Produktionspartner", stat3: "Exportländer",
+    badge_title: "Sorgfältig ausgewählte Qualität, werksdirekt", badge_desc: "Ausgewählte Hersteller, Qualität und Preis garantiert",
+    cat_eyebrow: "PRODUKTKATEGORIEN", cat_title: "Unsere Produktpalette",
+    cat_desc: "Von Alltagsprodukten bis Haustierpflege, Fitness und Auto — Qualitätsprodukte in verschiedenen Kategorien",
+    cat1_name: "Haushaltswaren", cat1_desc: "Küchenartikel, Badartikel, Aufbewahrung, Haushaltsverbrauchsmaterial",
+    cat2_name: "Haustierbedarf", cat2_desc: "Futternäpfe, Spielzeug, Käfige, Hygieneprodukte, Haustiermöbel",
+    cat3_name: "Fitnessgeräte", cat3_desc: "Yogamatten, Hanteln, Widerstandsbänder, Home-Gym-Geräte",
+    cat4_name: "Auto-Zubehör", cat4_desc: "Auto-Organizer, Luftreiniger, Handyhalterungen, Auto-Gadgets",
+    cat_link: "Mehr erfahren",
+    why_eyebrow: "WARUM UNS WÄHLEN", why_title: "Unsere Vorteile",
+    why_desc: "Direkte Herstellerpartnerschaften und strenge Qualitätskontrolle sorgen für wettbewerbsfähige Preise und zuverlässige Lieferung",
+    why1_title: "Wettbewerbsfähige Preise", why1_desc: "Wir arbeiten direkt mit ausgewählten Herstellern in China zusammen, minimieren Vertriebsschichten und bieten optimale Preise für Qualitätsprodukte.",
+    why2_title: "Strenge Qualitätskontrolle", why2_desc: "Unser internes QC-Team führt vor dem Versand Vollinspektionen durch, um Mängel zu minimieren und konstante Qualitätsstandards zu gewährleisten.",
+    why3_title: "OEM/ODM-Unterstützung", why3_desc: "Logodruck, Verpackungsdesign und Produktanpassung verfügbar. Wir bearbeiten flexibel Bestellungen von kleinen bis großen Mengen.",
+    about_eyebrow: "ÜBER CANGLEI", about_title: "Wir verbinden Wert mit der Welt",
+    about_text1: "Canglei Industrial Co., Ltd. ist ein spezialisiertes Exportunternehmen, das sich der Lieferung hochwertiger und kosteneffizienter Produkte aus Chinas exzellenter Fertigungsbasis an globale Märkte verschrieben hat.",
+    about_text2: "Wir konzentrieren uns auf Haushaltswaren, Haustierbedarf, Fitnessgeräte und Auto-Zubehör. Durch direkte Herstellerpartnerschaften gewährleisten wir gleichzeitig wettbewerbsfähige Preise und stabile Qualität.",
+    about_f1: "Flexible Handelsbedingungen (FOB, CIF, etc.)",
+    about_f2: "Zuverlässiges Logistiknetzwerk für pünktliche Lieferung",
+    about_f3: "Schnelle Reaktion und flexible Auftragsabwicklung",
+    prod_eyebrow: "PRODUKTKATALOG", prod_title: "Ausgewählte Produkte",
+    prod_desc: "Entdecken Sie unsere repräsentativen Produkte nach Kategorien. Vollständiger Katalog auf Anfrage verfügbar",
+    tab_all: "Alle", tab_life: "Haushalt", tab_pet: "Haustiere", tab_fitness: "Fitness", tab_car: "Auto",
+    pcat1: "Haushalt", pcat2: "Haustierbedarf", pcat3: "Fitness", pcat4: "Auto",
+    pname1: "Küchen-Aufbewahrungsset", pdesc1: "Küchenbehälter-Set im modernen Design",
+    pname2: "Haustier-Futternapf-Set", pdesc2: "Rutschfestes Futternapf-Set für Haustiere",
+    pname3: "Home-Workout-Set", pdesc3: "Yogamatte, Hanteln und Widerstandsbänder im Set",
+    pname7: "Yoga-Widerstandsband-Set 5 Stufen", pdesc7: "Umweltfreundliches TPE, 5 Farben 5 Stufen, mit Tasche und Anleitung",
+    pname4: "Auto-Handyhalterung", pdesc4: "Stabile und sichere Smartphone-Halterung fürs Auto",
+    pname5: "Bad- Essentials-Set", pdesc5: "Bad-Organizer-Set im minimalistischen Design",
+    pname6: "Haustier-Kauspielzeug", pdesc6: "Langlebiges Spielzeug für Hunde und Katzen",
+    yb_eyebrow: "PRODUKTDETAIL", yb_title: "Yoga-Widerstandsband-Set 5 Stufen",
+    yb_tag: "BESTSELLER · FITNESS",
+    yb_hero_title: "Umweltfreundliches TPE-Material<br>Widerstandsband-Set 5 Stufen",
+    yb_hero_desc: "Ein Widerstandsband-Set mit 5 Stufen für Yoga, Pilates, Po-Training, Home-Workouts und Rehabilitation. Hergestellt aus umweltfreundlichem TPE-Material, hautfreundlich, mit 5 Widerstandsstufen von 10LB bis 50LB für Anfänger bis Fortgeschrittene. Inklusive Tragetasche und Bedienungsanleitung.",
+    yb_f1: "Umweltfreundliches TPE-Material (ungiftig, geruchsneutral)",
+    yb_f2: "5 Widerstandsstufen (10LB~50LB)",
+    yb_f3: "Ultraleicht und tragbar (~110g pro Set)",
+    yb_f4: "Tragetasche + Bedienungsanleitung inklusive",
+    yb_f5: "OEM/ODM-Anpassung verfügbar",
+    yb_cta1: "Angebot anfordern", yb_cta2: "Muster anfordern",
+    yb_levels_title: "5 Widerstandsstufen", yb_levels_sub: "Jede Farbe bietet eine andere Widerstandsstufe, passend zu Ihren Trainingszielen und Ihrem Fitnesslevel",
+    yb_l1_name: "Grün (X-Leicht)", yb_l1_spec: "Reha·Dehnung·Yoga<br>0.35mm / 12g",
+    yb_l2_name: "Blau (Leicht)", yb_l2_spec: "Waden·Arme<br>0.50mm / 14g",
+    yb_l3_name: "Gelb (Mittel)", yb_l3_spec: "Po·Waden·Unterkörper<br>0.70mm / 20g",
+    yb_l4_name: "Rot (Schwer)", yb_l4_spec: "Oberschenkel·Kniebeugen<br>0.90mm / 27g",
+    yb_l5_name: "Schwarz (X-Schwer)", yb_l5_spec: "Kraft·Power-Kniebeugen<br>1.10mm / 30g",
+    yb_spec_title: "Produktspezifikationen", yb_spec_sub: "Genaue Produktdetails",
+    yb_s1_label: "Produktname", yb_s1_val: "Yoga-Widerstandsband-Schlaufen-Set 5 Stufen",
+    yb_s2_label: "Material", yb_s3_label: "Zusammensetzung", yb_s3_val: "5 Widerstandsbänder + Tragetasche + Bedienungsanleitung",
+    yb_s4_label: "Bandgröße", yb_s5_label: "Dicke", yb_s6_label: "Set-Gewicht", yb_s6_val: "~110g (inkl. Tasche und Anleitung)",
+    yb_s7_label: "Verpackung", yb_s8_val: "100 Sets (500 Sets für Logopersonalisierung)",
+    yb_s9_label: "Anpassung", yb_s9_val: "Logodruck, Verpackungsdesign, Farbänderungen verfügbar (verhandelbar)",
+    yb_feat_title: "Hauptmerkmale", yb_feat_sub: "Warum dieses Produkt wählen",
+    yb_feat1_title: "Umweltfreundliches TPE-Material", yb_feat1_desc: "Ungiftiges und geruchsneutrales umweltfreundliches Material, sicher auch für empfindliche Haut.",
+    yb_feat2_title: "5 Widerstandsstufen", yb_feat2_desc: "Von 10LB bis 50LB, fünf Intensitätsstufen für alle, von Anfängern bis Fortgeschrittenen.",
+    yb_feat3_title: "Ultraleicht und tragbar", yb_feat3_desc: "Nur ~110g pro Set mit eigener Tasche, einfach überall und jederzeit mitzunehmen.",
+    yb_feat4_title: "Ganzkörpertraining", yb_feat4_desc: "Deckt Po, Unterkörper, Oberkörper, Core, Dehnung und Rehabilitation in einem Set ab.",
+    yb_feat5_title: "Hervorragende Haltbarkeit", yb_feat5_desc: "Hochelastisches TPE-Material widersteht Verformung bei wiederholter Verwendung für langanhaltende Leistung.",
+    yb_feat6_title: "Rutschfestes Design", yb_feat6_desc: "Texturierte Oberfläche sorgt für sicheren Halt und stabiles Gefühl während des Trainings.",
+    yb_oem_title: "🎨 OEM/ODM-Anpassung verfügbar",
+    yb_oem_desc: "Logodruck · Farbanpassung · Größenänderung · Verpackungsdesign · Marken-OEM-Produktion — Direkte Fabrikpreise mit Rabatten bei Großbestellungen",
+    yb_back: "Zurück zu Produkten",
+    contact_title: "Kontaktieren Sie uns",
+    contact_desc: "Haben Sie Fragen zu Preisen, Mustern oder OEM/ODM? Kontaktieren Sie uns jederzeit, wir antworten umgehend.",
+    ci_email: "E-Mail", ci_addr: "Adresse", ci_addr_val: "Shanghai, China",
+    ci_time: "Antwortzeit", ci_time_val: "Innerhalb von 24 Stunden an Werktagen",
+    form_name: "Name", form_name_ph: "Max Mustermann",
+    form_company: "Firma", form_company_ph: "Ihr Firmenname",
+    form_email: "E-Mail", form_cat: "Interessenskategorie",
+    form_msg: "Nachricht", form_msg_ph: "Sagen Sie uns, was Sie brauchen...",
+    form_submit: "Anfrage senden",
+    form_email_hint: "Oder kontaktieren Sie uns direkt unter der folgenden E-Mail",
+    form_copy: "Kopieren",
+    opt_all: "Alle", opt_life: "Haushalt", opt_pet: "Haustierbedarf",
+    opt_fitness: "Fitness", opt_car: "Auto",
+    footer_desc: "Export hochwertiger Produkte aus China. Haushaltswaren, Haustierbedarf, Fitnessgeräte und Auto-Zubehör für globale Kunden.",
+    footer_nav: "Navigation", footer_cat: "Kategorien", footer_contact: "Kontakt",
+    footer_copy: "Canglei Industrial Co., Ltd."
+  },
+  fr: {
+    brand: "Canglei Industrial",
+    nav_home: "Accueil", nav_categories: "Produits", nav_about: "À propos",
+    nav_products: "Catalogue", nav_contact: "Contact", nav_cta: "Demander un devis",
+    hero_tag: "Spécialiste de l'exportation de produits chinois à haut rapport qualité-prix",
+    hero_title: 'Nous connectons le monde à la <span class="highlight">valeur</span>',
+    hero_desc: "Canglei Industrial est spécialisée dans l'exportation de produits de haute qualité et rentables depuis la Chine. Nous travaillons directement avec les meilleurs fabricants pour fournir des articles ménagers, des fournitures pour animaux, des équipements de fitness et des accessoires automobiles à des clients du monde entier.",
+    hero_cta1: "Demander un devis", hero_cta2: "Voir les produits",
+    stat1: "Catégories de produits", stat2: "Partenaires de fabrication", stat3: "Pays d'exportation",
+    badge_title: "Qualité Sélectionnée, Direct Usine", badge_desc: "Fabricants sélectionnés, qualité et prix garantis",
+    cat_eyebrow: "CATÉGORIES DE PRODUITS", cat_title: "Notre gamme de produits",
+    cat_desc: "Des essentiels du quotidien aux soins pour animaux, fitness et automobile — des produits de qualité dans diverses catégories",
+    cat1_name: "Articles ménagers", cat1_desc: "Articles de cuisine, de salle de bain, organisateurs, essentiels pour la maison",
+    cat2_name: "Fournitures pour animaux", cat2_desc: "Gamelles, jouets, cages, produits d'hygiène, mobilier pour animaux",
+    cat3_name: "Équipement de fitness", cat3_desc: "Tapis de yoga, haltères, bandes de résistance, équipement de gym à domicile",
+    cat4_name: "Accessoires automobiles", cat4_desc: "Organisateurs, purificateurs d'air, supports de téléphone, gadgets automobiles",
+    cat_link: "En savoir plus",
+    why_eyebrow: "POURQUOI NOUS CHOISIR", why_title: "Nos avantages",
+    why_desc: "Des partenariats directs avec les fabricants et un contrôle qualité rigoureux garantissent des prix compétitifs et une livraison fiable",
+    why1_title: "Prix compétitifs", why1_desc: "Nous travaillons directement avec des fabricants sélectionnés en Chine, minimisant les intermédiaires pour offrir des prix optimaux sur des produits de qualité.",
+    why2_title: "Contrôle qualité rigoureux", why2_desc: "Notre équipe QC interne effectue des inspections complètes avant expédition pour minimiser les défauts et maintenir des normes de qualité constantes.",
+    why3_title: "Support OEM/ODM", why3_desc: "Impression de logo, design d'emballage et personnalisation de produits disponibles. Nous gérons flexiblement les commandes de petites à grandes quantités.",
+    about_eyebrow: "À PROPOS DE CANGLEI", about_title: "Connecter la valeur au monde",
+    about_text1: "Canglei Industrial Co., Ltd. est une entreprise spécialisée dans l'exportation, dédiée à fournir des produits de haute qualité et rentables depuis l'excellente base manufacturière chinoise vers les marchés mondiaux.",
+    about_text2: "Nous nous concentrons sur les articles ménagers, les fournitures pour animaux, les équipements de fitness et les accessoires automobiles. Grâce à des partenariats directs avec les fabricants, nous garantissons à la fois des prix compétitifs et une qualité stable.",
+    about_f1: "Conditions commerciales flexibles (FOB, CIF, etc.)",
+    about_f2: "Réseau logistique fiable pour une livraison à temps",
+    about_f3: "Réponse rapide et traitement flexible des commandes",
+    prod_eyebrow: "CATALOGUE DE PRODUITS", prod_title: "Produits en vedette",
+    prod_desc: "Découvrez nos produits représentatifs par catégorie. Catalogue complet disponible sur demande",
+    tab_all: "Tous", tab_life: "Maison", tab_pet: "Animaux", tab_fitness: "Fitness", tab_car: "Auto",
+    pcat1: "Maison", pcat2: "Animaux", pcat3: "Fitness", pcat4: "Auto",
+    pname1: "Ensemble de rangement cuisine", pdesc1: "Ensemble de conteneurs de cuisine au design moderne",
+    pname2: "Ensemble de gamelles pour animaux", pdesc2: "Ensemble de gamelles antidérapantes pour animaux",
+    pname3: "Kit d'entraînement à domicile", pdesc3: "Tapis de yoga, haltères et bandes de résistance en ensemble",
+    pname7: "Ensemble de bandes de résistance yoga 5 niveaux", pdesc7: "TPE écologique, 5 couleurs 5 niveaux, avec sac et manuel",
+    pname4: "Support téléphone voiture", pdesc4: "Support de smartphone stable et sécurisé pour voiture",
+    pname5: "Ensemble essentiels salle de bain", pdesc5: "Ensemble d'organisation de salle de bain au design minimaliste",
+    pname6: "Jouet à mâcher pour animaux", pdesc6: "Jouet durable pour chiens et chats",
+    yb_eyebrow: "DÉTAIL PRODUIT", yb_title: "Ensemble de bandes de résistance yoga 5 niveaux",
+    yb_tag: "MEILLEURE VENTE · FITNESS",
+    yb_hero_title: "Matériau TPE écologique<br>Ensemble de bandes de résistance 5 niveaux",
+    yb_hero_desc: "Un ensemble de bandes de résistance à 5 niveaux couvrant le yoga, le pilates, le renforcement des fessiers, l'entraînement à domicile et la rééducation. Fabriqué en matériau TPE écologique doux pour la peau, avec 5 niveaux de résistance de 10LB à 50LB pour les débutants aux utilisateurs avancés. Inclut un sac de transport et un manuel d'utilisation.",
+    yb_f1: "Matériau TPE écologique (non toxique, sans odeur)",
+    yb_f2: "5 niveaux de résistance (10LB~50LB)",
+    yb_f3: "Ultra-léger et portable (~110g par ensemble)",
+    yb_f4: "Sac de transport + manuel inclus",
+    yb_f5: "Personnalisation OEM/ODM disponible",
+    yb_cta1: "Demander un devis", yb_cta2: "Demander un échantillon",
+    yb_levels_title: "5 niveaux de résistance", yb_levels_sub: "Chaque couleur offre un niveau de résistance différent pour s'adapter à vos objectifs et à votre niveau de forme physique",
+    yb_l1_name: "Vert (X-Léger)", yb_l1_spec: "Rééducation·Étirement·Yoga<br>0.35mm / 12g",
+    yb_l2_name: "Bleu (Léger)", yb_l2_spec: "Mollets·Bras<br>0.50mm / 14g",
+    yb_l3_name: "Jaune (Moyen)", yb_l3_spec: "Fessiers·Mollets·Bas du corps<br>0.70mm / 20g",
+    yb_l4_name: "Rouge (Lourd)", yb_l4_spec: "Cuisses·Squats<br>0.90mm / 27g",
+    yb_l5_name: "Noir (X-Lourd)", yb_l5_spec: "Force·Squats puissants<br>1.10mm / 30g",
+    yb_spec_title: "Spécifications du produit", yb_spec_sub: "Détails précis des spécifications du produit",
+    yb_s1_label: "Nom du produit", yb_s1_val: "Ensemble de bandes de résistance en boucle de yoga 5 niveaux",
+    yb_s2_label: "Matériau", yb_s3_label: "Composition", yb_s3_val: "5 bandes de résistance + sac de transport + manuel",
+    yb_s4_label: "Taille de bande", yb_s5_label: "Épaisseur", yb_s6_label: "Poids de l'ensemble", yb_s6_val: "~110g (incl. sac et manuel)",
+    yb_s7_label: "Emballage", yb_s8_val: "100 ensembles (500 ensembles pour personnalisation de logo)",
+    yb_s9_label: "Personnalisation", yb_s9_val: "Impression de logo, design d'emballage, changements de couleur disponibles (négociable)",
+    yb_feat_title: "Caractéristiques clés", yb_feat_sub: "Pourquoi choisir ce produit",
+    yb_feat1_title: "Matériau TPE écologique", yb_feat1_desc: "Matériau écologique non toxique et sans odeur, sûr même pour les peaux sensibles.",
+    yb_feat2_title: "5 niveaux de résistance", yb_feat2_desc: "De 10LB à 50LB, cinq niveaux d'intensité conviennent à tous, des débutants aux athlètes avancés.",
+    yb_feat3_title: "Ultra-léger et portable", yb_feat3_desc: "Seulement ~110g par ensemble avec un sac dédié, facile à transporter partout, à tout moment.",
+    yb_feat4_title: "Entraînement corps complet", yb_feat4_desc: "Couvre les fessiers, le bas du corps, le haut du corps, le core, les étirements et la rééducation dans un seul ensemble.",
+    yb_feat5_title: "Excellente durabilité", yb_feat5_desc: "Matériau TPE haute élasticité résiste à la déformation avec une utilisation répétée pour des performances durables.",
+    yb_feat6_title: "Design antidérapant", yb_feat6_desc: "Surface texturée offrant une prise en main sûre et une sensation stable pendant les entraînements.",
+    yb_oem_title: "🎨 Personnalisation OEM/ODM disponible",
+    yb_oem_desc: "Impression de logo · Personnalisation de couleur · Changements de taille · Design d'emballage · Production OEM de marque — Prix directs d'usine avec réductions pour les commandes en gros",
+    yb_back: "Retour aux produits",
+    contact_title: "Contactez-nous",
+    contact_desc: "Vous avez des questions sur les prix, les échantillons ou l'OEM/ODM ? Contactez-nous à tout moment et nous répondrons rapidement.",
+    ci_email: "E-mail", ci_addr: "Adresse", ci_addr_val: "Shanghai, Chine",
+    ci_time: "Temps de réponse", ci_time_val: "Dans les 24 heures ouvrables",
+    form_name: "Nom", form_name_ph: "Jean Dupont",
+    form_company: "Entreprise", form_company_ph: "Nom de votre entreprise",
+    form_email: "E-mail", form_cat: "Catégorie d'intérêt",
+    form_msg: "Message", form_msg_ph: "Dites-nous ce dont vous avez besoin...",
+    form_submit: "Envoyer la demande",
+    form_email_hint: "Ou contactez-nous directement à l'adresse e-mail ci-dessous",
+    form_copy: "Copier",
+    opt_all: "Tous", opt_life: "Maison", opt_pet: "Fournitures pour animaux",
+    opt_fitness: "Fitness", opt_car: "Auto",
+    footer_desc: "Exportation de produits de qualité premium depuis la Chine. Articles ménagers, fournitures pour animaux, équipements de fitness et accessoires automobiles pour clients mondiaux.",
+    footer_nav: "Navigation", footer_cat: "Catégories", footer_contact: "Contact",
+    footer_copy: "Canglei Industrial Co., Ltd."
+  }
+
+
+  ,
+  vi: {
+    brand: "Canglei Industrial",
+    nav_home: "Trang chủ", nav_categories: "Sản phẩm", nav_about: "Giới thiệu",
+    nav_products: "Danh mục", nav_contact: "Liên hệ", nav_cta: "Yêu cầu báo giá",
+    hero_tag: "Chuyên gia xuất khẩu sản phẩm Trung Quốc hiệu quả chi phí cao",
+    hero_title: 'Kết nối thế giới bằng <span class="highlight">giá trị</span>',
+    hero_desc: "Canglei Industrial chuyên xuất khẩu các sản phẩm chất lượng cao và hiệu quả về chi phí từ Trung Quốc. Chúng tôi hợp tác trực tiếp với các nhà sản xuất hàng đầu để cung cấp đồ gia dụng, vật tư thú cưng, thiết bị thể dục và phụ kiện ô tô cho khách hàng trên toàn thế giới.",
+    hero_cta1: "Yêu cầu báo giá", hero_cta2: "Xem sản phẩm",
+    stat1: "Danh mục sản phẩm", stat2: "Đối tác sản xuất", stat3: "Quốc gia xuất khẩu",
+    badge_title: "Chất lượng tuyển chọn, cung cấp trực tiếp", badge_desc: "Nhà sản xuất được tuyển chọn, chất lượng và giá cả đều đảm bảo",
+    cat_eyebrow: "DANH MỤC SẢN PHẨM", cat_title: "Dòng sản phẩm của chúng tôi",
+    cat_desc: "Từ vật dụng thiết yếu hàng ngày đến chăm sóc thú cưng, thể dục và ô tô — sản phẩm chất lượng ở nhiều danh mục",
+    cat1_name: "Đồ gia dụng", cat1_desc: "Đồ bếp, đồ tắm, đồ tổ chức, vật tư tiêu hao gia đình",
+    cat2_name: "Vật tư thú cưng", cat2_desc: "Bát ăn, đồ chơi, lồng, vật tư vệ sinh, nội thất thú cưng",
+    cat3_name: "Thiết bị thể dục", cat3_desc: "Thảm yoga, tạ, dây kháng lực, thiết bị gym tại nhà",
+    cat4_name: "Phụ kiện ô tô", cat4_desc: "Đồ tổ chức ô tô, máy lọc không khí, giá đỡ điện thoại, phụ kiện ô tô",
+    cat_link: "Xem thêm",
+    why_eyebrow: "TẠI SAO CHỌN CHÚNG TÔI", why_title: "Ưu điểm của Canglei",
+    why_desc: "Hợp tác trực tiếp với nhà sản xuất và kiểm soát chất lượng nghiêm ngặt đảm bảo giá cả cạnh tranh và giao hàng đáng tin cậy",
+    why1_title: "Giá cả cạnh tranh", why1_desc: "Chúng tôi làm việc trực tiếp với các nhà sản xuất được tuyển chọn tại Trung Quốc, giảm thiểu các tầng trung gian để cung cấp giá tối ưu cho sản phẩm chất lượng.",
+    why2_title: "Kiểm soát chất lượng nghiêm ngặt", why2_desc: "Đội ngũ QC nội bộ thực hiện kiểm tra đầy đủ trước khi vận chuyển để giảm thiểu lỗi và duy trì tiêu chuẩn chất lượng nhất quán.",
+    why3_title: "Hỗ trợ OEM/ODM", why3_desc: "In logo, thiết kế bao bì và tùy chỉnh sản phẩm có sẵn. Chúng tôi xử lý linh hoạt đơn hàng từ số lượng nhỏ đến lớn.",
+    about_eyebrow: "VỀ CANGLEI", about_title: "Kết nối giá trị với thế giới",
+    about_text1: "Canglei Industrial Co., Ltd. là công ty chuyên xuất khẩu, dành riêng việc cung cấp các sản phẩm chất lượng cao và hiệu quả về chi phí từ nền tảng sản xuất xuất sắc của Trung Quốc đến các thị trường toàn cầu.",
+    about_text2: "Chúng tôi tập trung vào đồ gia dụng, vật tư thú cưng, thiết bị thể dục và phụ kiện ô tô. Thông qua hợp tác trực tiếp với nhà sản xuất, chúng tôi đảm bảo đồng thời giá cả cạnh tranh và chất lượng ổn định.",
+    about_f1: "Điều kiện thương mại linh hoạt (FOB, CIF, v.v.)",
+    about_f2: "Mạng lưới logistics đáng tin cậy để giao hàng đúng hạn",
+    about_f3: "Phản hồi nhanh chóng và xử lý đơn hàng linh hoạt",
+    prod_eyebrow: "DANH MỤC SẢN PHẨM", prod_title: "Sản phẩm nổi bật",
+    prod_desc: "Khám phá các sản phẩm đại diện của chúng tôi theo danh mục. Danh mục đầy đủ có sẵn theo yêu cầu",
+    tab_all: "Tất cả", tab_life: "Gia dụng", tab_pet: "Thú cưng", tab_fitness: "Thể dục", tab_car: "Ô tô",
+    pcat1: "Gia dụng", pcat2: "Thú cưng", pcat3: "Thể dục", pcat4: "Ô tô",
+    pname1: "Bộ lưu trữ nhà bếp", pdesc1: "Bộ hộp đựng nhà bếp thiết kế hiện đại",
+    pname2: "Bộ bát ăn thú cưng", pdesc2: "Bộ bát ăn chống trượt cho thú cưng",
+    pname3: "Bộ tập luyện tại nhà", pdesc3: "Thảm yoga, tạ và dây kháng lực trong bộ",
+    pname7: "Bộ dây kháng lực yoga 5 cấp", pdesc7: "TPE thân thiện môi trường, 5 màu 5 cấp, kèm túi và hướng dẫn",
+    pname4: "Giá đỡ điện thoại ô tô", pdesc4: "Giá đỡ điện thoại thông minh ổn định và an toàn cho ô tô",
+    pname5: "Bộ đồ cần thiết phòng tắm", pdesc5: "Bộ tổ chức phòng tắm thiết kế tối giản",
+    pname6: "Đồ chơi nhai thú cưng", pdesc6: "Đồ chơi bền cho chó và mèo",
+    yb_eyebrow: "CHI TIẾT SẢN PHẨM", yb_title: "Bộ dây kháng lực yoga 5 cấp",
+    yb_tag: "BÁN CHẠY NHẤT · THỂ DỤC",
+    yb_hero_title: "Vật liệu TPE thân thiện môi trường<br>Bộ dây kháng lực 5 cấp",
+    yb_hero_desc: "Bộ dây kháng lực 5 cấp bao gồm yoga, pilates, tập mông, tập luyện tại nhà và phục hồi chức năng. Được làm từ vật liệu TPE thân thiện môi trường, nhẹ nhàng với da, với 5 cấp độ kháng lực từ 10LB đến 50LB cho người mới bắt đầu đến người dùng nâng cao. Bao gồm túi đựng và hướng dẫn sử dụng.",
+    yb_f1: "Vật liệu TPE thân thiện môi trường (không độc tố, không mùi)",
+    yb_f2: "5 cấp độ kháng lực (10LB~50LB)",
+    yb_f3: "Siêu nhẹ và dễ mang theo (~110g mỗi bộ)",
+    yb_f4: "Túi đựng + hướng dẫn sử dụng đi kèm",
+    yb_f5: "Tùy chỉnh OEM/ODM có sẵn",
+    yb_cta1: "Yêu cầu báo giá", yb_cta2: "Yêu cầu mẫu",
+    yb_levels_title: "5 cấp độ kháng lực", yb_levels_sub: "Mỗi màu cung cấp cấp độ kháng lực khác nhau để phù hợp với mục tiêu tập luyện và trình độ thể dục của bạn",
+    yb_l1_name: "Xanh lá (Rất nhẹ)", yb_l1_spec: "Phục hồi·Giãn cơ·Yoga<br>0.35mm / 12g",
+    yb_l2_name: "Xanh dương (Nhẹ)", yb_l2_spec: "Bắp chân·Cánh tay<br>0.50mm / 14g",
+    yb_l3_name: "Vàng (Trung bình)", yb_l3_spec: "Mông·Bắp chân·Hạ thân<br>0.70mm / 20g",
+    yb_l4_name: "Đỏ (Nặng)", yb_l4_spec: "Đùi·Ngồi xổm<br>0.90mm / 27g",
+    yb_l5_name: "Đen (Rất nặng)", yb_l5_spec: "Sức mạnh·Ngồi xổm mạnh<br>1.10mm / 30g",
+    yb_spec_title: "Thông số kỹ thuật sản phẩm", yb_spec_sub: "Chi tiết thông số kỹ thuật sản phẩm chính xác",
+    yb_s1_label: "Tên sản phẩm", yb_s1_val: "Bộ dây kháng lực vòng yoga 5 cấp",
+    yb_s2_label: "Vật liệu", yb_s3_label: "Thành phần", yb_s3_val: "5 dây kháng lực + túi đựng + hướng dẫn sử dụng",
+    yb_s4_label: "Kích thước dây", yb_s5_label: "Độ dày", yb_s6_label: "Trọng lượng bộ", yb_s6_val: "~110g (bao gồm túi và hướng dẫn)",
+    yb_s7_label: "Bao bì", yb_s8_val: "100 bộ (500 bộ để tùy chỉnh logo)",
+    yb_s9_label: "Tùy chỉnh", yb_s9_val: "In logo, thiết kế bao bì, thay đổi màu sắc có sẵn (có thể thương lượng)",
+    yb_feat_title: "Đặc điểm chính", yb_feat_sub: "Tại sao chọn sản phẩm này",
+    yb_feat1_title: "Vật liệu TPE thân thiện môi trường", yb_feat1_desc: "Vật liệu thân thiện môi trường không độc tố và không mùi, an toàn ngay cả với da nhạy cảm.",
+    yb_feat2_title: "5 cấp độ kháng lực", yb_feat2_desc: "Từ 10LB đến 50LB, năm cấp độ cường độ phù hợp với tất cả mọi người, từ người mới bắt đầu đến vận động viên nâng cao.",
+    yb_feat3_title: "Siêu nhẹ và dễ mang theo", yb_feat3_desc: "Chỉ ~110g mỗi bộ kèm túi chuyên dụng, dễ dàng mang theo bất cứ đâu, bất cứ lúc nào.",
+    yb_feat4_title: "Tập luyện toàn thân", yb_feat4_desc: "Bao gồm mông, hạ thân, thân trên, cốt lõi, giãn cơ và phục hồi trong một bộ.",
+    yb_feat5_title: "Độ bền xuất sắc", yb_feat5_desc: "Vật liệu TPE đàn hồi cao chống biến dạng khi sử dụng lặp lại cho hiệu suất lâu dài.",
+    yb_feat6_title: "Thiết kế chống trượt", yb_feat6_desc: "Bề mặt có kết cấu cung cấp độ bám chắc chắn và cảm giác ổn định trong quá trình tập luyện.",
+    yb_oem_title: "🎨 Tùy chỉnh OEM/ODM có sẵn",
+    yb_oem_desc: "In logo · Tùy chỉnh màu sắc · Thay đổi kích thước · Thiết kế bao bì · Sản xuất OEM thương hiệu — Giá nhà máy trực tiếp với giảm giá cho đơn hàng số lượng lớn",
+    yb_back: "Quay lại sản phẩm",
+    contact_title: "Liên hệ với chúng tôi",
+    contact_desc: "Bạn có câu hỏi về giá cả, mẫu hoặc OEM/ODM? Liên hệ với chúng tôi bất cứ lúc nào và chúng tôi sẽ phản hồi nhanh chóng.",
+    ci_email: "E-mail", ci_addr: "Địa chỉ", ci_addr_val: "Thượng Hải, Trung Quốc",
+    ci_time: "Thời gian phản hồi", ci_time_val: "Trong vòng 24 giờ làm việc",
+    form_name: "Tên", form_name_ph: "Nguyễn Văn A",
+    form_company: "Công ty", form_company_ph: "Tên công ty của bạn",
+    form_email: "E-mail", form_cat: "Danh mục quan tâm",
+    form_msg: "Tin nhắn", form_msg_ph: "Hãy cho chúng tôi biết bạn cần gì...",
+    form_submit: "Gửi yêu cầu",
+    form_email_hint: "Hoặc liên hệ trực tiếp với chúng tôi qua e-mail dưới đây",
+    form_copy: "Sao chép",
+    opt_all: "Tất cả", opt_life: "Gia dụng", opt_pet: "Vật tư thú cưng",
+    opt_fitness: "Thể dục", opt_car: "Ô tô",
+    footer_desc: "Xuất khẩu sản phẩm chất lượng cao từ Trung Quốc. Đồ gia dụng, vật tư thú cưng, thiết bị thể dục và phụ kiện ô tô cho khách hàng toàn cầu.",
+    footer_nav: "Điều hướng", footer_cat: "Danh mục", footer_contact: "Liên hệ",
+    footer_copy: "Canglei Industrial Co., Ltd."
+  },
+  id: {
+    brand: "Canglei Industrial",
+    nav_home: "Beranda", nav_categories: "Produk", nav_about: "Tentang Kami",
+    nav_products: "Katalog", nav_contact: "Kontak", nav_cta: "Minta Penawaran",
+    hero_tag: "Spesialis ekspor produk buatan Tiongkok dengan nilai harga tinggi",
+    hero_title: 'Menghubungkan dunia dengan <span class="highlight">nilai</span>',
+    hero_desc: "Canglei Industrial mengkhususkan diri pada ekspor produk berkualitas tinggi dan hemat biaya dari Tiongkok. Kami bekerja langsung dengan produsen terkemuka untuk menyediakan barang rumah tangga, perlengkapan hewan peliharaan, peralatan kebugaran, dan aksesori mobil kepada pelanggan di seluruh dunia.",
+    hero_cta1: "Minta Penawaran", hero_cta2: "Lihat Produk",
+    stat1: "Kategori Produk", stat2: "Mitra Produksi", stat3: "Negara Ekspor",
+    badge_title: "Kualitas Terpilih, Langsung Pabrik", badge_desc: "Produsen terpilih, kualitas dan harga dijamin",
+    cat_eyebrow: "KATEGORI PRODUK", cat_title: "Rentang Produk Kami",
+    cat_desc: "Dari kebutuhan sehari-hari hingga perawatan hewan, kebugaran, dan otomotif — produk berkualitas di berbagai kategori",
+    cat1_name: "Barang Rumah Tangga", cat1_desc: "Peralatan dapur, perlengkapan mandi, organizer, kebutuhan rumah tangga",
+    cat2_name: "Perlengkapan Hewan", cat2_desc: "Tempat makan, mainan, kandang, produk kebersihan, furnitur hewan",
+    cat3_name: "Peralatan Kebugaran", cat3_desc: "Matras yoga, dumbbell, gelang resistensi, peralatan gym rumahan",
+    cat4_name: "Aksesori Mobil", cat4_desc: "Organizer mobil, pembersih udara, holder hp, gadget mobil",
+    cat_link: "Selengkapnya",
+    why_eyebrow: "MENGAPA MEMILIH KAMI", why_title: "Keunggulan Canglei",
+    why_desc: "Kemitraan langsung dengan produsen dan kontrol kualitas ketat memastikan harga kompetitif dan pengiriman yang andal",
+    why1_title: "Harga Kompetitif", why1_desc: "Kami bekerja langsung dengan produsen terpilih di Tiongkok, meminimalkan lapisan distribusi untuk menawarkan harga optimal untuk produk berkualitas.",
+    why2_title: "Kontrol Kualitas Ketat", why2_desc: "Tim QC internal kami melakukan inspeksi penuh sebelum pengiriman untuk meminimalkan cacat dan menjaga standar kualitas yang konsisten.",
+    why3_title: "Dukungan OEM/ODM", why3_desc: "Cetak logo, desain kemasan, dan kustomisasi produk tersedia. Kami menangani pesanan dari jumlah kecil hingga besar secara fleksibel.",
+    about_eyebrow: "TENTANG CANGLEI", about_title: "Menghubungkan Nilai ke Dunia",
+    about_text1: "Canglei Industrial Co., Ltd. adalah perusahaan spesialis ekspor yang berdedikasi untuk memasok produk berkualitas tinggi dan hemat biaya dari basis manufaktur Tiongkok yang sangat baik ke pasar global.",
+    about_text2: "Kami berfokus pada barang rumah tangga, perlengkapan hewan, peralatan kebugaran, dan aksesori mobil. Melalui kemitraan langsung dengan produsen, kami memastikan harga kompetitif dan kualitas stabil secara bersamaan.",
+    about_f1: "Ketentuan perdagangan fleksibel (FOB, CIF, dll.)",
+    about_f2: "Jaringan logistik andal untuk pengiriman tepat waktu",
+    about_f3: "Respons cepat dan penanganan pesanan fleksibel",
+    prod_eyebrow: "KATALOG PRODUK", prod_title: "Produk Unggulan",
+    prod_desc: "Jelajahi produk representatif kami berdasarkan kategori. Katalog lengkap tersedia berdasarkan permintaan",
+    tab_all: "Semua", tab_life: "Rumah", tab_pet: "Hewan", tab_fitness: "Kebugaran", tab_car: "Mobil",
+    pcat1: "Rumah", pcat2: "Hewan", pcat3: "Kebugaran", pcat4: "Mobil",
+    pname1: "Set Penyimpanan Dapur", pdesc1: "Set wadah penyimpanan dapur desain modern",
+    pname2: "Set Tempat Makan Hewan", pdesc2: "Set tempat makan anti selip untuk hewan peliharaan",
+    pname3: "Set Latihan di Rumah", pdesc3: "Matras yoga, dumbbell, dan gelang resistensi dalam set",
+    pname7: "Set Gelang Resistensi Yoga 5 Level", pdesc7: "TPE ramah lingkungan, 5 warna 5 level, dengan tas dan panduan",
+    pname4: "Holder HP Mobil", pdesc4: "Holder smartphone yang stabil dan aman untuk mobil",
+    pname5: "Set Perlengkapan Mandi", pdesc5: "Set organizer kamar mandi desain minimalis",
+    pname6: "Mainan Kunyah Hewan", pdesc6: "Mainan tahan lama untuk anjing dan kucing",
+    yb_eyebrow: "DETAIL PRODUK", yb_title: "Set Gelang Resistensi Yoga 5 Level",
+    yb_tag: "TERLARIS · KEBUGARAN",
+    yb_hero_title: "Bahan TPE Ramah Lingkungan<br>Set Gelang Resistensi 5 Level",
+    yb_hero_desc: "Set gelang resistensi 5 level yang mencakup yoga, pilates, latihan pinggul, latihan di rumah, dan rehabilitasi. Terbuat dari bahan TPE ramah lingkungan yang lembut di kulit, dengan 5 level resistensi dari 10LB hingga 50LB untuk pemula hingga pengguna tingkat lanjut. Termasuk tas jinjing dan panduan pengguna.",
+    yb_f1: "Bahan TPE ramah lingkungan (tidak beracun, tidak berbau)",
+    yb_f2: "5 level resistensi (10LB~50LB)",
+    yb_f3: "Sangat ringan dan portabel (~110g per set)",
+    yb_f4: "Tas jinjing + panduan pengguna termasuk",
+    yb_f5: "Kustomisasi OEM/ODM tersedia",
+    yb_cta1: "Minta Penawaran", yb_cta2: "Minta Sampel",
+    yb_levels_title: "5 Level Resistensi", yb_levels_sub: "Setiap warna menawarkan level resistensi yang berbeda untuk menyesuaikan tujuan latihan dan tingkat kebugaran Anda",
+    yb_l1_name: "Hijau (Sangat Ringan)", yb_l1_spec: "Rehabilitasi·Peregangan·Yoga<br>0.35mm / 12g",
+    yb_l2_name: "Biru (Ringan)", yb_l2_spec: "Betis·Lengan<br>0.50mm / 14g",
+    yb_l3_name: "Kuning (Sedang)", yb_l3_spec: "Pinggul·Betis·Bagian Bawah<br>0.70mm / 20g",
+    yb_l4_name: "Merah (Berat)", yb_l4_spec: "Paha·Squat<br>0.90mm / 27g",
+    yb_l5_name: "Hitam (Sangat Berat)", yb_l5_spec: "Kekuatan·Squat Bertenaga<br>1.10mm / 30g",
+    yb_spec_title: "Spesifikasi Produk", yb_spec_sub: "Detail spesifikasi produk yang akurat",
+    yb_s1_label: "Nama Produk", yb_s1_val: "Set Gelang Resistensi Loop Yoga 5 Level",
+    yb_s2_label: "Bahan", yb_s3_label: "Komposisi", yb_s3_val: "5 gelang resistensi + tas jinjing + panduan pengguna",
+    yb_s4_label: "Ukuran Gelang", yb_s5_label: "Ketebalan", yb_s6_label: "Berat Set", yb_s6_val: "~110g (termasuk tas dan panduan)",
+    yb_s7_label: "Kemasan", yb_s8_val: "100 set (500 set untuk kustomisasi logo)",
+    yb_s9_label: "Kustomisasi", yb_s9_val: "Cetak logo, desain kemasan, perubahan warna tersedia (dapat dinegosiasikan)",
+    yb_feat_title: "Fitur Utama", yb_feat_sub: "Mengapa memilih produk ini",
+    yb_feat1_title: "Bahan TPE Ramah Lingkungan", yb_feat1_desc: "Bahan ramah lingkungan tidak beracun dan tidak berbau, aman bahkan untuk kulit sensitif.",
+    yb_feat2_title: "5 Level Resistensi", yb_feat2_desc: "Dari 10LB hingga 50LB, lima level intensitas cocok untuk semua, dari pemula hingga atlet tingkat lanjut.",
+    yb_feat3_title: "Sangat Ringan dan Portabel", yb_feat3_desc: "Hanya ~110g per set dengan tas khusus, mudah dibawa ke mana saja, kapan saja.",
+    yb_feat4_title: "Latihan Seluruh Tubuh", yb_feat4_desc: "Mencakup pinggul, bagian bawah, bagian atas, inti, peregangan, dan rehabilitasi dalam satu set.",
+    yb_feat5_title: "Daya Tahan Luar Biasa", yb_feat5_desc: "Bahan TPE elastisitas tinggi menahan deformasi dengan penggunaan berulang untuk kinerja jangka panjang.",
+    yb_feat6_title: "Desain Anti Selip", yb_feat6_desc: "Permukaan bertekstur memberikan pegangan yang aman dan rasa stabil selama latihan.",
+    yb_oem_title: "🎨 Kustomisasi OEM/ODM Tersedia",
+    yb_oem_desc: "Cetak logo · Kustomisasi warna · Perubahan ukuran · Desain kemasan · Produksi OEM merek — Harga pabrik langsung dengan diskon untuk pesanan grosir",
+    yb_back: "Kembali ke Produk",
+    contact_title: "Hubungi Kami",
+    contact_desc: "Punya pertanyaan tentang harga, sampel, atau OEM/ODM? Hubungi kami kapan saja dan kami akan merespons dengan cepat.",
+    ci_email: "Email", ci_addr: "Alamat", ci_addr_val: "Shanghai, Tiongkok",
+    ci_time: "Waktu Respons", ci_time_val: "Dalam 24 jam kerja",
+    form_name: "Nama", form_name_ph: "Budi Santoso",
+    form_company: "Perusahaan", form_company_ph: "Nama perusahaan Anda",
+    form_email: "Email", form_cat: "Kategori Minat",
+    form_msg: "Pesan", form_msg_ph: "Beri tahu kami apa yang Anda butuhkan...",
+    form_submit: "Kirim Pertanyaan",
+    form_email_hint: "Atau hubungi kami langsung di email di bawah ini",
+    form_copy: "Salin",
+    opt_all: "Semua", opt_life: "Rumah", opt_pet: "Perlengkapan Hewan",
+    opt_fitness: "Kebugaran", opt_car: "Mobil",
+    footer_desc: "Ekspor produk berkualitas premium dari Tiongkok. Barang rumah tangga, perlengkapan hewan, peralatan kebugaran, dan aksesori mobil untuk pelanggan global.",
+    footer_nav: "Navigasi", footer_cat: "Kategori", footer_contact: "Kontak",
+    footer_copy: "Canglei Industrial Co., Ltd."
+  },
+  th: {
+    brand: "Canglei Industrial",
+    nav_home: "หน้าแรก", nav_categories: "ผลิตภัณฑ์", nav_about: "เกี่ยวกับเรา",
+    nav_products: "แคตตาล็อก", nav_contact: "ติดต่อ", nav_cta: "ขอใบเสนอราคา",
+    hero_tag: "ผู้เชี่ยวชาญด้านการส่งออกผลิตภัณฑ์จีนคุณภาพคุ้มค่า",
+    hero_title: 'เชื่อมต่อโลกด้วย<span class="highlight">คุณค่า</span>',
+    hero_desc: "Canglei Industrial เชี่ยวชาญในการส่งออกผลิตภัณฑ์คุณภาพสูงและคุ้มค่าจากจีน เราทำงานร่วมกับผู้ผลิตชั้นนำโดยตรงเพื่อจัดหาสินค้าใช้ในครัวเรือน อุปกรณ์สัตว์เลี้ยง อุปกรณ์ออกกำลังกาย และอุปกรณ์เสริมรถยนต์ให้กับลูกค้าทั่วโลก",
+    hero_cta1: "ขอใบเสนอราคา", hero_cta2: "ดูผลิตภัณฑ์",
+    stat1: "หมวดหมู่ผลิตภัณฑ์", stat2: "พันธมิตรการผลิต", stat3: "ประเทศที่ส่งออก",
+    badge_title: "คุณภาพคัดสรร จัดส่งตรงจากโรงงาน", badge_desc: "ผู้ผลิตที่คัดสรร คุณภาพและราคารับประกัน",
+    cat_eyebrow: "หมวดหมู่ผลิตภัณฑ์", cat_title: "ผลิตภัณฑ์ของเรา",
+    cat_desc: "ตั้งแต่สิ่งจำเป็นประจำวันไปจนถึงการดูแลสัตว์เลี้ยง ฟิตเนส และรถยนต์ — ผลิตภัณฑ์คุณภาพในหลายหมวดหมู่",
+    cat1_name: "สินค้าใช้ในครัวเรือน", cat1_desc: "เครื่องใช้ในครัว อุปกรณ์ห้องน้ำ ของจัดระเบียบ สิ่งของใช้ในบ้าน",
+    cat2_name: "อุปกรณ์สัตว์เลี้ยง", cat2_desc: "ชามอาหาร ของเล่น กรง อุปกรณ์ความสะอาด เฟอร์นิเจอร์สัตว์เลี้ยง",
+    cat3_name: "อุปกรณ์ออกกำลังกาย", cat3_desc: "เสื่อโยคะ ดัมเบล สายยืดกล้ามเนื้อ อุปกรณ์ออกกำลังกายที่บ้าน",
+    cat4_name: "อุปกรณ์เสริมรถยนต์", cat4_desc: "ของจัดระเบียบรถยนต์ เครื่องฟอกอากาศ ที่วางโทรศัพท์ อุปกรณ์เสริมรถยนต์",
+    cat_link: "ดูเพิ่มเติม",
+    why_eyebrow: "ทำไมต้องเลือกเรา", why_title: "ข้อได้เปรียบของ Canglei",
+    why_desc: "ความร่วมมือโดยตรงกับผู้ผลิตและการควบคุมคุณภาพที่เข้มงวดรับประกันราคาที่แข่งขันได้และการจัดส่งที่เชื่อถือได้",
+    why1_title: "ราคาที่แข่งขันได้", why1_desc: "เราทำงานร่วมกับผู้ผลิตที่คัดสรรในจีนโดยตรง ลดชั้นกระจายเพื่อเสนอราคาที่ดีที่สุดสำหรับผลิตภัณฑ์คุณภาพ",
+    why2_title: "การควบคุมคุณภาพที่เข้มงวด", why2_desc: "ทีม QC ภายในของเราทำการตรวจสอบเต็มรูปแบบก่อนจัดส่งเพื่อลดความบกพร่องและรักษามาตรฐานคุณภาพที่สม่ำเสมอ",
+    why3_title: "รองรับ OEM/ODM", why3_desc: "พิมพ์โลโก้ ออกแบบบรรจุภัณฑ์ และปรับแต่งผลิตภัณฑ์ได้ เราจัดการคำสั่งซื้อจากจำนวนน้อยไปจนถึงมากได้อย่างยืดหยุ่น",
+    about_eyebrow: "เกี่ยวกับ CANGLEI", about_title: "เชื่อมต่อคุณค่าสู่โลก",
+    about_text1: "Canglei Industrial Co., Ltd. เป็นบริษัทผู้เชี่ยวชาญด้านการส่งออก ที่อุทิศตนเพื่อจัดหาผลิตภัณฑ์คุณภาพสูงและคุ้มค่าจากฐานการผลิตที่ยอดเยี่ยมของจีนไปสู่ตลาดโลก",
+    about_text2: "เรามุ่งเน้นไปที่สินค้าใช้ในครัวเรือน อุปกรณ์สัตว์เลี้ยง อุปกรณ์ออกกำลังกาย และอุปกรณ์เสริมรถยนต์ ผ่านความร่วมมือโดยตรงกับผู้ผลิต เรารับประกันราคาที่แข่งขันได้และคุณภาพที่มั่นคงในเวลาเดียวกัน",
+    about_f1: "เงื่อนไขการค้าที่ยืดหยุ่น (FOB, CIF ฯลฯ)",
+    about_f2: "เครือข่ายโลจิสติกส์ที่เชื่อถือได้สำหรับการจัดส่งทันเวลา",
+    about_f3: "การตอบสนองอย่างรวดเร็วและการจัดการคำสั่งซื้อที่ยืดหยุ่น",
+    prod_eyebrow: "แคตตาล็อกผลิตภัณฑ์", prod_title: "ผลิตภัณฑ์แนะนำ",
+    prod_desc: "สำรวจผลิตภัณฑ์ตัวแทนของเราตามหมวดหมู่ แคตตาล็อกครบถ้วนมีให้บริการตามคำขอ",
+    tab_all: "ทั้งหมด", tab_life: "ครัวเรือน", tab_pet: "สัตว์เลี้ยง", tab_fitness: "ฟิตเนส", tab_car: "รถยนต์",
+    pcat1: "ครัวเรือน", pcat2: "สัตว์เลี้ยง", pcat3: "ฟิตเนส", pcat4: "รถยนต์",
+    pname1: "ชุดจัดเก็บในครัว", pdesc1: "ชุดภาชนะจัดเก็บในครัวดีไซน์ทันสมัย",
+    pname2: "ชุดชามอาหารสัตว์เลี้ยง", pdesc2: "ชุดชามอาหารกันลื่นสำหรับสัตว์เลี้ยง",
+    pname3: "ชุดออกกำลังกายที่บ้าน", pdesc3: "เสื่อโยคะ ดัมเบล และสายยืดกล้ามเนื้อในชุด",
+    pname7: "ชุดสายยืดกล้ามเนื้อโยคะ 5 ระดับ", pdesc7: "TPE เป็นมิตรต่อสิ่งแวดล้อม 5 สี 5 ระดับ พร้อมกระเป๋าและคู่มือ",
+    pname4: "ที่วางโทรศัพท์ในรถยนต์", pdesc4: "ที่วางสมาร์ทโฟนที่มั่นคงและปลอดภัยสำหรับรถยนต์",
+    pname5: "ชุดอุปกรณ์ห้องน้ำ", pdesc5: "ชุดจัดระเบียบห้องน้ำดีไซน์เรียบง่าย",
+    pname6: "ของเล่นเคี้ยวสำหรับสัตว์เลี้ยง", pdesc6: "ของเล่นทนทานสำหรับสุนัขและแมว",
+    yb_eyebrow: "รายละเอียดผลิตภัณฑ์", yb_title: "ชุดสายยืดกล้ามเนื้อโยคะ 5 ระดับ",
+    yb_tag: "ขายดีที่สุด · ฟิตเนส",
+    yb_hero_title: "วัสดุ TPE เป็นมิตรต่อสิ่งแวดล้อม<br>ชุดสายยืดกล้ามเนื้อ 5 ระดับ",
+    yb_hero_desc: "ชุดสายยืดกล้ามเนื้อ 5 ระดับที่ครอบคลุมโยคะ พิลาทิส ฝึกสะโพก ออกกำลังกายที่บ้าน และกายภาพบำบัด ทำจากวัสดุ TPE เป็นมิตรต่อสิ่งแวดล้อมอ่อนโยนต่อผิว มี 5 ระดับความต้านทานตั้งแต่ 10LB ถึง 50LB สำหรับผู้เริ่มต้นถึงผู้ใช้ขั้นสูง รวมถึงกระเป๋าใส่และคู่มือการใช้งาน",
+    yb_f1: "วัสดุ TPE เป็นมิตรต่อสิ่งแวดล้อม (ไม่เป็นพิษ ไม่มีกลิ่น)",
+    yb_f2: "5 ระดับความต้านทาน (10LB~50LB)",
+    yb_f3: "น้ำหนักเบามากและพกพาได้ (~110g ต่อชุด)",
+    yb_f4: "กระเป๋าใส่ + คู่มือการใช้งานรวมอยู่แล้ว",
+    yb_f5: "รองรับการปรับแต่ง OEM/ODM",
+    yb_cta1: "ขอใบเสนอราคา", yb_cta2: "ขอตัวอย่าง",
+    yb_levels_title: "5 ระดับความต้านทาน", yb_levels_sub: "แต่ละสีให้ระดับความต้านทานที่แตกต่างกันเพื่อให้เหมาะกับเป้าหมายการออกกำลังกายและระดับฟิตเนสของคุณ",
+    yb_l1_name: "เขียว (เบามาก)", yb_l1_spec: "กายภาพบำบัด·ยืดเส้นยืดสาย·โยคะ<br>0.35mm / 12g",
+    yb_l2_name: "น้ำเงิน (เบา)", yb_l2_spec: "น่อง·แขน<br>0.50mm / 14g",
+    yb_l3_name: "เหลือง (ปานกลาง)", yb_l3_spec: "สะโพก·น่อง·ล่างลำตัว<br>0.70mm / 20g",
+    yb_l4_name: "แดง (หนัก)", yb_l4_spec: "ต้นขา·สควอช<br>0.90mm / 27g",
+    yb_l5_name: "ดำ (หนักมาก)", yb_l5_spec: "ความแข็งแรง·สควอชแรง<br>1.10mm / 30g",
+    yb_spec_title: "สเปกผลิตภัณฑ์", yb_spec_sub: "รายละเอียดสเปกผลิตภัณฑ์ที่ถูกต้อง",
+    yb_s1_label: "ชื่อผลิตภัณฑ์", yb_s1_val: "ชุดสายยืดกล้ามเนื้อห่วงโยคะ 5 ระดับ",
+    yb_s2_label: "วัสดุ", yb_s3_label: "ส่วนประกอบ", yb_s3_val: "สายยืดกล้ามเนื้อ 5 เส้น + กระเป๋าใส่ + คู่มือการใช้งาน",
+    yb_s4_label: "ขนาดสาย", yb_s5_label: "ความหนา", yb_s6_label: "น้ำหนักชุด", yb_s6_val: "~110g (รวมกระเป๋าและคู่มือ)",
+    yb_s7_label: "บรรจุภัณฑ์", yb_s8_val: "100 ชุด (500 ชุดสำหรับการปรับแต่งโลโก้)",
+    yb_s9_label: "การปรับแต่ง", yb_s9_val: "พิมพ์โลโก้ ออกแบบบรรจุภัณฑ์ เปลี่ยนสีได้ (เจรจาได้)",
+    yb_feat_title: "คุณสมบัติหลัก", yb_feat_sub: "ทำไมต้องเลือกผลิตภัณฑ์นี้",
+    yb_feat1_title: "วัสดุ TPE เป็นมิตรต่อสิ่งแวดล้อม", yb_feat1_desc: "วัสดุเป็นมิตรต่อสิ่งแวดล้อมไม่เป็นพิษและไม่มีกลิ่น ปลอดภัยแม้แต่สำหรับผิวแพ้ง่าย",
+    yb_feat2_title: "5 ระดับความต้านทาน", yb_feat2_desc: "ตั้งแต่ 10LB ถึง 50LB ห้าระดับความเข้มข้นเหมาะกับทุกคน ตั้งแต่ผู้เริ่มต้นถึงนักกีฬาขั้นสูง",
+    yb_feat3_title: "น้ำหนักเบามากและพกพาได้", yb_feat3_desc: "เพียง ~110g ต่อชุดพร้อมกระเป๋าเฉพาะ พกพาง่ายไปทุกที่ทุกเวลา",
+    yb_feat4_title: "ออกกำลังกายทั้งตัว", yb_feat4_desc: "ครอบคลุมสะโพก ล่างลำตัว บนลำตัว แกนกลาง ยืดเส้นยืดสาย และกายภาพบำบัดในชุดเดียว",
+    yb_feat5_title: "ความทนทานยอดเยี่ยม", yb_feat5_desc: "วัสดุ TPE ยืดหยุ่นสูงทนต่อการเปลี่ยนรูปด้วยการใช้ซ้ำๆ เพื่อประสิทธิภาพที่ยาวนาน",
+    yb_feat6_title: "ดีไซน์กันลื่น", yb_feat6_desc: "พื้นผิวมีลักษณะพิเศษให้การจับที่แน่นอนและความรู้สึกมั่นคงในระหว่างการออกกำลังกาย",
+    yb_oem_title: "🎨 รองรับการปรับแต่ง OEM/ODM",
+    yb_oem_desc: "พิมพ์โลโก้ · ปรับแต่งสี · เปลี่ยนขนาด · ออกแบบบรรจุภัณฑ์ · การผลิต OEM ตามแบรนด์ — ราคาโรงงานโดยตรงพร้อมส่วนลดสำหรับคำสั่งซื้อจำนวนมาก",
+    yb_back: "กลับไปยังผลิตภัณฑ์",
+    contact_title: "ติดต่อเรา",
+    contact_desc: "มีคำถามเกี่ยวกับราคา ตัวอย่าง หรือ OEM/ODM หรือไม่? ติดต่อเราได้ตลอดเวลาและเราจะตอบกลับอย่างรวดเร็ว",
+    ci_email: "อีเมล", ci_addr: "ที่อยู่", ci_addr_val: "เซี่ยงไฮ้ จีน",
+    ci_time: "เวลาตอบสนอง", ci_time_val: "ภายใน 24 ชั่วโมงทำการ",
+    form_name: "ชื่อ", form_name_ph: "สมชาย ใจดี",
+    form_company: "บริษัท", form_company_ph: "ชื่อบริษัทของคุณ",
+    form_email: "อีเมล", form_cat: "หมวดหมู่ที่สนใจ",
+    form_msg: "ข้อความ", form_msg_ph: "บอกเราได้ว่าคุณต้องการอะไร...",
+    form_submit: "ส่งคำสอบถาม",
+    form_email_hint: "หรือติดต่อเราโดยตรงที่อีเมลด้านล่าง",
+    form_copy: "คัดลอก",
+    opt_all: "ทั้งหมด", opt_life: "ครัวเรือน", opt_pet: "อุปกรณ์สัตว์เลี้ยง",
+    opt_fitness: "ฟิตเนส", opt_car: "รถยนต์",
+    footer_desc: "การส่งออกผลิตภัณฑ์คุณภาพพรีเมียมจากจีน สินค้าใช้ในครัวเรือน อุปกรณ์สัตว์เลี้ยง อุปกรณ์ออกกำลังกาย และอุปกรณ์เสริมรถยนต์สำหรับลูกค้าทั่วโลก",
+    footer_nav: "การนำทาง", footer_cat: "หมวดหมู่", footer_contact: "ติดต่อ",
+    footer_copy: "Canglei Industrial Co., Ltd."
+  }
+
 };
 
 let currentLang = 'ko';
@@ -1370,10 +2348,15 @@ let currentLang = 'ko';
 function setLang(lang) {
   currentLang = lang;
   document.body.classList.toggle('en', lang === 'en');
+  document.body.classList.toggle('rtl', lang === 'ar');
   document.documentElement.lang = lang;
-  document.querySelectorAll('.lang-switch button').forEach((btn, i) => {
-    btn.classList.toggle('active', (i === 0 && lang === 'ko') || (i === 1 && lang === 'en'));
+  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+  const langLabels = { ko:'KO', en:'EN', zh:'中', ja:'日', es:'ES', pt:'PT', ru:'RU', ar:'ع', de:'DE', fr:'FR', vi:'VI', id:'ID', th:'TH' };
+  document.getElementById('currentLangLabel').textContent = langLabels[lang] || lang;
+  document.querySelectorAll('.lang-dropdown-menu button').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
   });
+  document.getElementById('langDropdown').classList.remove('open');
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
@@ -1384,6 +2367,16 @@ function setLang(lang) {
   });
 }
 
+
+function toggleLangDropdown() {
+  document.getElementById('langDropdown').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.lang-dropdown')) {
+    document.getElementById('langDropdown').classList.remove('open');
+  }
+});
+
 // ===== Product Filter =====
 function filterProducts(cat, btn) {
   document.querySelectorAll('.product-tab').forEach(t => t.classList.remove('active'));
@@ -1393,6 +2386,21 @@ function filterProducts(cat, btn) {
   });
 }
 
+
+// ===== Go to Category from Home =====
+function goToCategory(cat) {
+  document.getElementById('yoga-band').classList.remove('active');
+  document.getElementById('products').style.display = '';
+  location.href = '#products';
+  setTimeout(() => {
+    const tabs = document.querySelectorAll('.product-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    const catMap = { all:0, life:1, pet:2, fitness:3, car:4 };
+    const idx = catMap[cat] || 0;
+    if (tabs[idx]) { tabs[idx].classList.add('active'); filterProducts(cat, tabs[idx]); }
+    document.getElementById('products').scrollIntoView({ behavior:'smooth', block:'start' });
+  }, 100);
+}
 // ===== Yoga Band Detail Toggle =====
 function showYogaBand() {
   document.getElementById('yoga-band').classList.add('active');
