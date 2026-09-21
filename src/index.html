@@ -579,6 +579,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   color: var(--text-secondary); border-bottom: 1px solid var(--border-light);
 }
 .mobile-menu a:last-child { border-bottom: none; }
+
 </style>
 </head>
 <body>
@@ -890,8 +891,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 <!-- ===== Yoga Resistance Band Detail ===== -->
 <section class="section product-detail" id="yoga-band">
   <div class="section-inner">
-    <div style="margin-bottom:24px;">
-      <button onclick="hideYogaBand()" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);font-size:13px;font-weight:500;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;">
+    <div style="margin-bottom:32px;">
+      <button onclick="hideYogaBand()" class="pd-back-btn" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--brand);border:none;border-radius:var(--radius);font-size:14px;font-weight:600;color:#fff;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 8px rgba(27,58,92,0.2);">
         ← <span data-i18n="yb_back">제품 목록으로</span>
       </button>
     </div>
@@ -919,8 +920,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
           <li data-i18n="yb_f5">OEM/ODM 맞춤 제작 지원</li>
         </ul>
         <div class="pd-cta-row">
-          <a href="#contact" class="pd-btn pd-btn-primary" data-i18n="yb_cta1">견적 문의하기</a>
-          <a href="#contact" class="pd-btn pd-btn-outline" data-i18n="yb_cta2">샘플 요청하기</a>
+          <button type="button" onclick="scrollToContactInDetail()" class="pd-btn pd-btn-primary" data-i18n="yb_cta1">견적 문의하기</button>
+          <button type="button" onclick="scrollToContactInDetail()" class="pd-btn pd-btn-outline" data-i18n="yb_cta2">샘플 요청하기</button>
         </div>
       </div>
     </div>
@@ -1039,6 +1040,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       <h3 data-i18n="yb_oem_title">🎨 OEM/ODM 맞춤 제작 가능</h3>
       <p data-i18n="yb_oem_desc">로고 인쇄 · 색상 커스텀 · 사이즈 변경 · 포장 디자인 · 브랜드 OEM 생산 지원 — 공장 직영 생산으로 대량 주문시 단가 인하 가능합니다</p>
     </div>
+    <div style="text-align:center; margin-top:40px;">
+      <button onclick="hideYogaBand()" style="display:inline-flex;align-items:center;gap:8px;padding:14px 36px;background:var(--brand);border:none;border-radius:var(--radius);font-size:15px;font-weight:600;color:#fff;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 12px rgba(27,58,92,0.25);">
+        ← <span data-i18n="yb_back">제품 목록으로</span>
+      </button>
+    </div>
   </div>
 </section>
 
@@ -1066,7 +1072,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         </div>
         <div>
           <div class="contact-item-label" data-i18n="ci_addr">주소</div>
-          <div class="contact-item-value" data-i18n="ci_addr_val">중국 장쑤성 우시시</div>
+          <div class="contact-item-value" data-i18n="ci_addr_val">중국 상하이시</div>
         </div>
       </div>
       <div class="contact-item">
@@ -1088,7 +1094,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         </div>
       </div>
     </div>
-    <form class="contact-form" onsubmit="submitForm(event)">
+    <form class="contact-form" id="contactForm" onsubmit="submitWeb3Form(event)">
+      <input type="hidden" name="access_key" value="1902d051-9336-4db3-87f7-27285f84f967">
+      <input type="hidden" name="subject" value="Canglei Industrial Website Inquiry">
+      <input type="hidden" name="from_name" value="Canglei Website">
       <div class="form-row">
         <div class="form-group">
           <label data-i18n="form_name">성함</label>
@@ -1120,6 +1129,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
         <textarea name="message" required data-i18n-ph="form_msg_ph" placeholder="문의하실 내용을 입력해주세요"></textarea>
       </div>
       <button type="submit" class="form-submit" data-i18n="form_submit">문의 보내기</button>
+      <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border-light); text-align:center;">
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;" data-i18n="form_email_hint">또는 아래 이메일로 직접 문의해 주세요</p>
+        <div style="display:flex; align-items:center; justify-content:center; gap:8px;">
+          <span style="font-size:14px; font-weight:600; color:var(--brand);">kimhuy1906@naver.com</span>
+          <button type="button" onclick="copyEmail()" style="padding:4px 12px; font-size:12px; background:var(--bg); border:1px solid var(--border); border-radius:4px; cursor:pointer; color:var(--text-secondary);" data-i18n="form_copy">복사</button>
+        </div>
+      </div>
     </form>
   </div>
 </section>
@@ -1157,7 +1173,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
       <ul>
         <li>kimhuy1906@naver.com</li>
         <li>KakaoTalk: KimHuy_</li>
-        <li data-i18n="ci_addr_val">중국 장쑤성 우시시</li>
+        <li data-i18n="ci_addr_val">중국 상하이시</li>
         <li data-i18n="ci_time_val">영업일 24시간 이내 답변</li>
       </ul>
     </div>
@@ -1244,13 +1260,15 @@ const i18n = {
     yb_back: "제품 목록으로",
     contact_title: "문의하기",
     contact_desc: "제품 견적, 샘플 요청, OEM/ODM 협의 등 궁금한 점이 있으시면 언제든지 편하게 연락 주시기 바랍니다. 빠르게 답변 드리겠습니다.",
-    ci_email: "이메일", ci_addr: "주소", ci_addr_val: "중국 장쑤성 우시시",
+    ci_email: "이메일", ci_addr: "주소", ci_addr_val: "중국 상하이시",
     ci_time: "응답 시간", ci_time_val: "영업일 24시간 이내 답변",
     form_name: "성함", form_name_ph: "홍길동",
     form_company: "회사명", form_company_ph: "회사명을 입력해주세요",
     form_email: "이메일", form_cat: "관심 카테고리",
     form_msg: "문의 내용", form_msg_ph: "문의하실 내용을 입력해주세요",
     form_submit: "문의 보내기",
+    form_email_hint: "또는 아래 이메일로 직접 문의해 주세요",
+    form_copy: "복사",
     opt_all: "전체", opt_life: "생활용품", opt_pet: "반려동물용품",
     opt_fitness: "헬스·피트니스", opt_car: "차량용품",
     footer_desc: "중국 고품질 제품 수출 전문 기업. 생활용품, 반려동물용품, 헬스기구, 차량용품을 전 세계 고객에게 제공합니다.",
@@ -1330,13 +1348,15 @@ const i18n = {
     yb_back: "Back to Products",
     contact_title: "Get in Touch",
     contact_desc: "Have questions about pricing, samples, or OEM/ODM? Reach out anytime and we'll respond promptly.",
-    ci_email: "Email", ci_addr: "Address", ci_addr_val: "Wuxi, Jiangsu, China",
+    ci_email: "Email", ci_addr: "Address", ci_addr_val: "Shanghai, China",
     ci_time: "Response Time", ci_time_val: "Within 24 hours on business days",
     form_name: "Name", form_name_ph: "John Doe",
     form_company: "Company", form_company_ph: "Your company name",
     form_email: "Email", form_cat: "Category of Interest",
     form_msg: "Message", form_msg_ph: "Tell us what you need...",
     form_submit: "Send Inquiry",
+    form_email_hint: "Or reach us directly at the email below",
+    form_copy: "Copy",
     opt_all: "All", opt_life: "Lifestyle", opt_pet: "Pet Supplies",
     opt_fitness: "Fitness", opt_car: "Automotive",
     footer_desc: "Premium quality product export from China. Lifestyle goods, pet supplies, fitness equipment, and car accessories for global customers.",
@@ -1377,41 +1397,83 @@ function filterProducts(cat, btn) {
 function showYogaBand() {
   document.getElementById('yoga-band').classList.add('active');
   document.getElementById('products').style.display = 'none';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
   history.replaceState(null, '', '#yoga-band');
+  setTimeout(() => {
+    document.getElementById('yoga-band').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
 }
 function hideYogaBand() {
   document.getElementById('yoga-band').classList.remove('active');
   document.getElementById('products').style.display = '';
-  document.getElementById('yoga-band').scrollIntoView({ behavior: 'smooth' });
-  history.replaceState(null, '', '#products');
+}
+
+// ===== Hash Change: sync detail view with nav =====
+window.addEventListener('hashchange', () => {
+  if (window.location.hash !== '#yoga-band') {
+    hideYogaBand();
+  }
+});
+
+// ===== Scroll to contact while staying in detail view =====
+function scrollToContactInDetail() {
+  document.getElementById('contact').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ===== Copy Email =====
+function copyEmail() {
+  const email = 'kimhuy1906@naver.com';
+  navigator.clipboard.writeText(email).then(() => {
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = currentLang === 'ko' ? '복사됨 ✓' : 'Copied ✓';
+    setTimeout(() => { btn.textContent = orig; }, 2000);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = email; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = currentLang === 'ko' ? '복사됨 ✓' : 'Copied ✓';
+    setTimeout(() => { btn.textContent = orig; }, 2000);
+  });
 }
 
 // ===== Form Submit =====
-function submitForm(e) {
+function submitWeb3Form(e) {
   e.preventDefault();
   const form = e.target;
-  const name = form.name.value || '-';
-  const company = form.company.value || '-';
-  const email = form.email.value || '-';
-  const category = form.category.value || '-';
-  const message = form.message.value || '-';
+  const btn = form.querySelector('.form-submit');
+  const origText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = currentLang === 'ko' ? '전송 중...' : 'Sending...';
 
-  const isKo = currentLang === 'ko';
-  const subject = isKo
-    ? `[Canglei 문의] ${name} - ${category}`
-    : `[Canglei Inquiry] ${name} - ${category}`;
-  const body = isKo
-    ? `성함: ${name}\n회사명: ${company}\n이메일: ${email}\n관심 카테고리: ${category}\n\n문의 내용:\n${message}`
-    : `Name: ${name}\nCompany: ${company}\nEmail: ${email}\nCategory: ${category}\n\nMessage:\n${message}`;
-
-  const mailtoLink = `mailto:kimhuy1906@naver.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.location.href = mailtoLink;
-
-  const tip = isKo
-    ? '메일 앱이 열렸습니다. 내용을 확인 후 전송해 주세요.'
-    : 'Your email app has opened. Please review and send.';
-  setTimeout(() => { alert(tip); form.reset(); }, 500);
+  const formData = new FormData(form);
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      const msg = currentLang === 'ko'
+        ? '문의가 성공적으로 전송되었습니다. 빠르게 답변 드리겠습니다.'
+        : 'Your inquiry has been sent successfully. We will respond shortly.';
+      alert(msg);
+      form.reset();
+    } else {
+      throw new Error(data.message || 'Submit failed');
+    }
+  })
+  .catch(err => {
+    const msg = currentLang === 'ko'
+      ? '전송에 실패했습니다. 다시 시도하거나 이메일로 직접 문의해 주세요.'
+      : 'Failed to send. Please try again or email us directly.';
+    alert(msg);
+  })
+  .finally(() => {
+    btn.disabled = false;
+    btn.textContent = origText;
+  });
 }
 
 // ===== Mobile Menu =====
@@ -1426,7 +1488,13 @@ window.addEventListener('scroll', () => {
 
 // ===== Init =====
 setLang('ko');
-if (window.location.hash === '#yoga-band') { showYogaBand(); }
+if (window.location.hash === '#yoga-band') {
+  showYogaBand();
+} else {
+  // 默认回到首页顶部，避免浏览器记住上次滚动位置跳到contact
+  history.replaceState(null, '', '#home');
+  window.scrollTo(0, 0);
+}
 </script>
 </body>
 </html>
